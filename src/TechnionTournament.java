@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 public class TechnionTournament implements Tournament{
+    private TwoThreeTree<Faculty> facultyTree;
+    private DynamicHeap<Player> goalScorers;
+    private DynamicHeap<Faculty> points;
 
     TechnionTournament(){};
 

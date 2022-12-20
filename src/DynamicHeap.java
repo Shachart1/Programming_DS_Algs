@@ -1,4 +1,4 @@
-public abstract class DynamicHeap<T> { //Max Heap
+public class DynamicHeap<T> { //Max Heap
     private Node<T> root; //Savir
     private int heapSize;
 
@@ -11,8 +11,8 @@ public abstract class DynamicHeap<T> { //Max Heap
     public Node<T> getRoot(){
         return this.root;
     }
-    public abstract void heapify(Node<T> x);
-    public abstract void heapIncreaseKey(int k, Node<T> x);
-    public abstract Node<T> extractMin();
-    public abstract void heapInsert(Node<T> x);
+    public void heapify(Node<T> x){} //TODO
+    public void heapIncreaseKey(int k, Node<T> x){} //TODO
+    public Node<T> extractMin(){return null;} //TODO
+    public void heapInsert(Node<T> x){} //TODO
 }
