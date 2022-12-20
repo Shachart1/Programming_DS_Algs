@@ -7,7 +7,7 @@ public class Main {
         TechnionTournament tournament = new TechnionTournament();
         tournament.init();
         /** End of initializing the Tournament **/
-/**my note??/
+
         /** Adding faculties to the Tournament **/
         Map<Integer,String> faculties = new HashMap<>();
         faculties.put(1,"CS");
