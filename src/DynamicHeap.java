@@ -11,8 +11,8 @@ public class DynamicHeap<T> { //Max Heap
     public Node<T> getRoot(){
         return this.root;
     }
-    public void heapify(Node<T> x){} //TODO
-    public void heapIncreaseKey(int k, Node<T> x){} //TODO
-    public Node<T> extractMin(){return null;} //TODO
-    public void heapInsert(Node<T> x){} //TODO
+    public void heapify(Node<T> x){} //TODO - Shachar
+    public void heapIncreaseKey(int k, Node<T> x){} //TODO - Shachar
+    public Node<T> extractMin(){return null;} //TODO - Ilan
+    public void heapInsert(Node<T> x){} //TODO - Ilan
 }

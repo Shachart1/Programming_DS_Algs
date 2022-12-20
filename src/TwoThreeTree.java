@@ -10,8 +10,8 @@ public abstract class TwoThreeTree<T> {
     public Node<T> getRoot(){
         return this.root;
     }
-    public void Insert(Node<T> Node){} //TODO
-    public void Delete(Node<T> Node){} //TODO
-    public void UpdateNode(Node<T> Node){} //TODO
-    public Node<T> Search(int key){return null;} //TODO - Build and check if needed other types of search
+    public void Insert(Node<T> Node){} //TODO - Shachar
+    public void Delete(Node<T> Node){} //TODO - Shachar
+    public void UpdateNode(Node<T> Node){} //TODO - Ilan
+    public Node<T> Search(int key){return null;} //TODO - Build and check if needed other types of search. Ilan
 }
