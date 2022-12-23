@@ -3,6 +3,26 @@ import java.lang.AssertionError;
 public class Main {
     public static void main(String[] args) {
 
+        /** OUR TESTS START HERE **/
+        TwoThreeTree testTree = new TwoThreeTree();
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(4,"a"),4)); //faculty "a" has id 4
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(2,"b"),2)); //faculty "b" has id 2
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(5,"c"),5)); //faculty "c" has id 5
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(1,"d"),1)); //faculty "d" has id 1
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(6,"e"),6)); //faculty "e" has id 6
+        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
+                null,new Faculty(3,"f"),3)); //faculty "f" has id 3
+
+        testTree.printTree();
+
+
+        /** OUR TESTS ENDS HERE **/
+
         /** Initializing the tournament **/
         TechnionTournament tournament = new TechnionTournament();
         tournament.init();
