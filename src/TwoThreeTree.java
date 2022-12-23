@@ -31,7 +31,7 @@ public class TwoThreeTree<T> {
 
 
     /**
-     * set the children received as parameters in order
+     * set the children received as parameters to be children of the parent(also parameter) in order
      * @param parent
      * @param left
      * @param middle
@@ -151,6 +151,10 @@ public class TwoThreeTree<T> {
     }
 
 
+    /**
+     * removes a node from the tree - removes link to the parent and link from the parent
+     * @param node
+     */
     private void Remove(Node<T> node){
         Node<T> parent = node.parent;
         if(node == parent.leftChild){SetChildren(parent,parent.middleChild,parent.rightChild,null);return;}
@@ -200,7 +204,7 @@ public class TwoThreeTree<T> {
     }
 
     /**
-     * assuming that only leaves are getting deleted
+     * working under the assumption that only leaves are getting deleted
      * @param node
      */
     public void Delete(Node<T> node){
@@ -236,7 +240,7 @@ public class TwoThreeTree<T> {
             UpdateKey(parent);
             parent = parent.parent;
         }
-    } //TODO - Shachar
+    }
 
 
 
@@ -249,7 +253,7 @@ public class TwoThreeTree<T> {
 
 
 
-    /** Prints funcs for testings **/
+    /** Prints functions for testings **/
 
     private void recursivePrint(Node<T> node){
         if (node.leftChild == null){System.out.print(node.key + " "); return;}
