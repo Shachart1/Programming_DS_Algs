@@ -3,22 +3,41 @@ import java.lang.AssertionError;
 public class Main {
     public static void main(String[] args) {
 
+        Node<Faculty> testNode_a = new Node<Faculty>(null,null,null,
+                null,new Faculty(4,"a"),4);
+        Node<Faculty> testNode_b = new Node<Faculty>(null,null,null,
+                null,new Faculty(2,"b"),2);
+        Node<Faculty> testNode_c = new Node<Faculty>(null,null,null,
+                null,new Faculty(5,"c"),5);
+        Node<Faculty> testNode_d = new Node<Faculty>(null,null,null,
+                null,new Faculty(1,"d"),1);
+        Node<Faculty> testNode_e = new Node<Faculty>(null,null,null,
+                null,new Faculty(6,"e"),6);
+        Node<Faculty> testNode_f = new Node<Faculty>(null,null,null,
+                null,new Faculty(3,"f"),3);
+
         /** OUR TESTS START HERE **/
         TwoThreeTree testTree = new TwoThreeTree();
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(4,"a"),4)); //faculty "a" has id 4
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(2,"b"),2)); //faculty "b" has id 2
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(5,"c"),5)); //faculty "c" has id 5
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(1,"d"),1)); //faculty "d" has id 1
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(6,"e"),6)); //faculty "e" has id 6
-        testTree.Insert(testTree.getRoot(), new Node<Faculty>(null,null,null,
-                null,new Faculty(3,"f"),3)); //faculty "f" has id 3
-
+        testTree.Insert(testTree.getRoot(), testNode_a); //faculty "a" has id 4
+        testTree.Insert(testTree.getRoot(), testNode_b); //faculty "b" has id 2
+        testTree.Insert(testTree.getRoot(), testNode_c); //faculty "c" has id 5
+        testTree.Insert(testTree.getRoot(), testNode_d); //faculty "d" has id 1
+        testTree.Insert(testTree.getRoot(), testNode_e); //faculty "e" has id 6
+        testTree.Insert(testTree.getRoot(), testNode_f); //faculty "f" has id 3
         testTree.printTree();
+        System.out.println();
+
+        testTree.Delete(testNode_e); // removing 6
+        testTree.printTree();
+        System.out.println();
+
+        testTree.Delete(testNode_d); // removing 1
+        testTree.printTree();
+        System.out.println();
+
+        testTree.Delete(testNode_f); // removing 3
+        testTree.printTree();
+        System.out.println();
 
 
         /** OUR TESTS ENDS HERE **/

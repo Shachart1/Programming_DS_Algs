@@ -3,6 +3,7 @@ public class TwoThreeTree<T> {
 
     /**
      * using the inf and -inf "towers" to save checks
+     * we assume there are no two identical keys since the TwoThreeTree will be used with IDs which are unique
      * @param root
      */
     public TwoThreeTree(Node<T> root){
@@ -121,6 +122,7 @@ public class TwoThreeTree<T> {
      * @param node
      */
     public void Insert(Node<T> root, Node<T> node){
+        if(this.root == null) {this.root = node; return;} //in case we have an empty tree
         while(root.leftChild != null){ //stop when found a leaf
             if(node.key < root.leftChild.key){
                 root=root.leftChild;
@@ -149,7 +151,98 @@ public class TwoThreeTree<T> {
     }
 
 
-    public void Delete(Node<T> Node){} //TODO - Shachar
+    private void Remove(Node<T> node){
+        Node<T> parent = node.parent;
+        if(node == parent.leftChild){SetChildren(parent,parent.middleChild,parent.rightChild,null);return;}
+        if(node == parent.middleChild){SetChildren(parent,parent.leftChild,parent.rightChild,null);return;}
+        SetChildren(parent,parent.leftChild,parent.middleChild,null);
+        return;
+    }
+
+
+    private Node<T> BorrowOrMerge(Node<T> node){
+        Node<T> parent = node.parent;
+        if(node == parent.leftChild){
+            if(parent.middleChild.rightChild != null){ //borrow from middle
+                SetChildren(node,node.leftChild,parent.middleChild.leftChild,null);
+                SetChildren(parent.middleChild,parent.middleChild.middleChild,parent.middleChild.rightChild,null);
+            }
+            else { // can't borrow from middle. pass the issue higher
+                SetChildren(parent.middleChild, node.leftChild, parent.middleChild.leftChild, parent.middleChild.middleChild);
+                Remove(node);
+            }
+        }
+        else if(node == parent.middleChild){
+                if(parent.leftChild.rightChild != null){ //borrow from left
+                    SetChildren(node,parent.leftChild.rightChild,node.leftChild,null);
+                    SetChildren(parent.leftChild,parent.leftChild.leftChild,parent.leftChild.middleChild,null);
+                }
+                else { // can't borrow from middle. pass the issue higher
+                    SetChildren(parent.leftChild, parent.leftChild.leftChild, parent.leftChild.middleChild, node.leftChild);
+                    Remove(node);
+                }
+            }
+        else{ // node is right child
+                if(parent.middleChild.rightChild != null){ //borrow from middle
+                    SetChildren(node,parent.middleChild.rightChild,node.leftChild,null);
+                    SetChildren(parent.middleChild,parent.middleChild.leftChild,parent.middleChild.middleChild,null);
+                }
+                else { // can't borrow from middle. pass the issue higher
+                    SetChildren(parent.middleChild, parent.middleChild.leftChild, parent.middleChild.middleChild, node.leftChild);
+                    Remove(node);
+                }
+            }
+        // since we might have borrowed the keys might have been changed
+        UpdateKey(parent.leftChild);
+        if(parent.middleChild != null){UpdateKey(parent.middleChild);}
+        if(parent.rightChild != null){UpdateKey(parent.middleChild);}
+        return parent;
+    }
+
+    /**
+     * assuming that only leaves are getting deleted
+     * @param node
+     */
+    public void Delete(Node<T> node){
+        if(node == this.root){this.root=null; return;} // Create an empty tree
+        Node<T> parent = node.parent;
+        if(parent.rightChild != null) {
+            if (parent.leftChild == node) {
+                SetChildren(parent, parent.middleChild, parent.rightChild, null);
+            } else if (parent.middleChild == node) {
+                SetChildren(parent, parent.leftChild, parent.rightChild, null);
+            } else {// node is right child
+                SetChildren(parent, parent.leftChild, parent.middleChild, null);
+            }
+            node.parent = null; // Deleting node from the tree, assuming node is a leaf
+        }
+        // Can't rearrange. Need to borrow or merge. Delete node first
+        else if(parent.leftChild == node) {
+            SetChildren(parent,parent.middleChild,null,null);
+        }
+        else{SetChildren(parent,parent.leftChild,null,null);}
+
+        // Updating up the tree
+        while(parent!=null) {
+            if(parent.middleChild == null) { // We need a Borrow/Merge
+                if (parent != this.root) {
+                    parent = BorrowOrMerge(parent);
+                } else {
+                    this.root = parent.leftChild;
+                    this.root.parent = null;
+                    Remove(parent);
+                }
+            }
+            UpdateKey(parent);
+            parent = parent.parent;
+        }
+    } //TODO - Shachar
+
+
+
+
+
+
     public void UpdateNode(Node<T> Node){} //TODO - Ilan
     public Node<T> Search(int key){return null;} //TODO - Build and check if needed other types of search. Ilan
 
