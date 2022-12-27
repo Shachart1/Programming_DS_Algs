@@ -64,6 +64,11 @@ public class DynamicHeap<T> { //Max Heap
     } //TODO - tests
 
 
+    /**
+     * increase the key of x(node in the tree) to k
+     * @param k
+     * @param node
+     */
     public void heapIncreaseKey(int k, Node<T> node){
         if(k <= node.key){return;} //TODO - add exception here
         node.key = k;
