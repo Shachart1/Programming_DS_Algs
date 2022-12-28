@@ -1,4 +1,4 @@
-public class Player implements TournamentObjects{ // Can we do this?
+public class Player{ // Can we do this?
     private int player_id;
     private String player_name;
 

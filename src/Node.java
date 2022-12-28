@@ -1,38 +1,40 @@
-public class Node<T extends TournamentObjects> {
+public class Node<T> {
     Node<T> parent;
     Node<T> leftChild;
     Node<T> middleChild;
     Node<T> rightChild;
     int key;
+    int secondKey;
     T value;
 
     // Constructors
-    public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key){
+    public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key, int secondKey){
         this.parent = parent;
         this.leftChild = leftChild;
         this.middleChild = middleChild;
         this.rightChild = rightChild; //In TwoThreeTree always null
         this.value = value;
         this.key = key;
+        this.secondKey = secondKey;
     }
 
-    public Node(Node<T> parent, Node<T> leftChild,Node<T> middleChild,T value, int key){
-        this(parent,leftChild,middleChild,null, value, key);
+    public Node(Node<T> parent, Node<T> leftChild,Node<T> middleChild,T value, int key, int secondKey){
+        this(parent,leftChild,middleChild,null, value, key,secondKey);
     }
-    public Node(Node<T> parent,Node<T> leftChild,T value, int key){
-        this(null,parent,leftChild,null,value,key);
+    public Node(Node<T> parent,Node<T> leftChild,T value, int key, int secondKey){
+        this(null,parent,leftChild,null,value,key, secondKey);
     }
-    public Node(Node<T> parent,T value, int key){
-        this(parent,null,null,null,value,key);
+    public Node(Node<T> parent,T value, int key, int secondKey){
+        this(parent,null,null,null,value,key,secondKey);
     }
-    public Node(T value, int key){
-        this(null,null,null,null,value,key);
+    public Node(T value, int key, int secondKey){
+        this(null,null,null,null,value,key,secondKey);
     }
-    public Node(int key){
-        this(null,null,null,null,null,key);
+    public Node(int key, int secondKey){
+        this(null,null,null,null,null,key,secondKey);
     }
     public Node() {
-        this(null,null, null, null,null,Integer.MIN_VALUE);
+        this(null,null, null, null,null,Integer.MIN_VALUE,Integer.MIN_VALUE);
     }
 
 

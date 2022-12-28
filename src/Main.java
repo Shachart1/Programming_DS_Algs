@@ -4,17 +4,17 @@ public class Main {
     public static void main(String[] args) {
 
         Node<Faculty> testNode_a = new Node<Faculty>(null,null,null,
-                null,new Faculty(4,"a"),4);
+                null,new Faculty(4,"a"),4,4);
         Node<Faculty> testNode_b = new Node<Faculty>(null,null,null,
-                null,new Faculty(2,"b"),2);
+                null,new Faculty(2,"b"),2,2);
         Node<Faculty> testNode_c = new Node<Faculty>(null,null,null,
-                null,new Faculty(5,"c"),5);
+                null,new Faculty(5,"c"),5,5);
         Node<Faculty> testNode_d = new Node<Faculty>(null,null,null,
-                null,new Faculty(1,"d"),1);
+                null,new Faculty(1,"d"),1,1);
         Node<Faculty> testNode_e = new Node<Faculty>(null,null,null,
-                null,new Faculty(6,"e"),6);
+                null,new Faculty(6,"e"),6,6);
         Node<Faculty> testNode_f = new Node<Faculty>(null,null,null,
-                null,new Faculty(3,"f"),3);
+                null,new Faculty(3,"f"),3,3);
 
         /** OUR TESTS START HERE **/
         TwoThreeTree testTree = new TwoThreeTree();
@@ -41,17 +41,17 @@ public class Main {
 
 
         Node<Faculty> testNode_aH = new Node<Faculty>(null,null,null,
-                null,new Faculty(4,"a"),10);
+                null,new Faculty(4,"a"),10,4);
         Node<Faculty> testNode_bH = new Node<Faculty>(null,null,null,
-                null,new Faculty(2,"b"),12);
+                null,new Faculty(2,"b"),12,2);
         Node<Faculty> testNode_cH = new Node<Faculty>(null,null,null,
-                null,new Faculty(5,"c"),8);
+                null,new Faculty(5,"c"),8,5);
         Node<Faculty> testNode_dH = new Node<Faculty>(null,null,null,
-                null,new Faculty(1,"d"),10);
+                null,new Faculty(1,"d"),10,1);
         Node<Faculty> testNode_eH = new Node<Faculty>(null,null,null,
-                null,new Faculty(6,"e"),8);
+                null,new Faculty(6,"e"),8,6);
         Node<Faculty> testNode_fH = new Node<Faculty>(null,null,null,
-                null,new Faculty(3,"f"),5);
+                null,new Faculty(3,"f"),5,3);
 
 
         DynamicHeap testHeap = new DynamicHeap();

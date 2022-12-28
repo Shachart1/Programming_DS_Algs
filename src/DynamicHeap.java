@@ -1,4 +1,4 @@
-public class DynamicHeap<T extends TournamentObjects> { //Max Heap
+public class DynamicHeap<T> { //Max Heap
     private Node<T> root; //Savir
     private int heapSize;
     /** Assuming throughout the right child is null always **/
@@ -56,7 +56,7 @@ public class DynamicHeap<T extends TournamentObjects> { //Max Heap
         // saving max out of node and its children
         if(node.middleChild != null && node.key < node.middleChild.key) max = node.middleChild;
         else if(node.middleChild != null && node.key == node.middleChild.key &&
-                node.value.getId() < node.middleChild.value.getId()){
+                node.secondKey < node.middleChild.secondKey){
             max = node.middleChild;
         }
         else max = node;
