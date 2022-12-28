@@ -1,4 +1,4 @@
-public class TwoThreeTree<T> {
+public class TwoThreeTree<T extends TournamentObjects> {
     private Node<T> root; //Savir
 
     /**

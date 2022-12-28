@@ -40,6 +40,34 @@ public class Main {
         System.out.println();
 
 
+        Node<Faculty> testNode_aH = new Node<Faculty>(null,null,null,
+                null,new Faculty(4,"a"),10);
+        Node<Faculty> testNode_bH = new Node<Faculty>(null,null,null,
+                null,new Faculty(2,"b"),12);
+        Node<Faculty> testNode_cH = new Node<Faculty>(null,null,null,
+                null,new Faculty(5,"c"),8);
+        Node<Faculty> testNode_dH = new Node<Faculty>(null,null,null,
+                null,new Faculty(1,"d"),10);
+        Node<Faculty> testNode_eH = new Node<Faculty>(null,null,null,
+                null,new Faculty(6,"e"),8);
+        Node<Faculty> testNode_fH = new Node<Faculty>(null,null,null,
+                null,new Faculty(3,"f"),5);
+
+
+        DynamicHeap testHeap = new DynamicHeap();
+        testHeap.heapInsert(testNode_aH); //faculty "a" has 10 points
+        testHeap.heapInsert(testNode_bH); //faculty "b" has 12 points. They win the tournament
+        testHeap.heapInsert(testNode_cH); //faculty "c" has 8 points
+        testHeap.heapInsert(testNode_dH); //faculty "d" has 10 points
+        testHeap.heapInsert(testNode_eH); //faculty "e" has 8 points
+        testHeap.heapInsert(testNode_fH); //faculty "f" has 5 points
+
+
+        testHeap.heapIncreaseKey(6,testNode_fH); // draw between f and c, f still last
+        testHeap.heapIncreaseKey(11,testNode_eH); // draw between f and c, bumps c above e
+
+
+
         /** OUR TESTS ENDS HERE **/
 
         /** Initializing the tournament **/

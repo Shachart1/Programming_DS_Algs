@@ -1,4 +1,4 @@
-public class Faculty {
+public class Faculty implements TournamentObjects{ // Can we do this?
     private int faculty_id;
     private String faculty_name;
 

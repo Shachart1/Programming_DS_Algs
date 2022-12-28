@@ -1,4 +1,4 @@
-public class Node<T> {
+public class Node<T extends TournamentObjects> {
     Node<T> parent;
     Node<T> leftChild;
     Node<T> middleChild;
