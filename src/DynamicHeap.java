@@ -55,6 +55,10 @@ public class DynamicHeap<T> { //Max Heap
         Node<T> max;
         // saving max out of node and its children
         if(node.middleChild != null && node.key < node.middleChild.key) max = node.middleChild;
+        else if(node.middleChild != null && node.key == node.middleChild.key &&
+                node.secondKey < node.middleChild.secondKey){
+            max = node.middleChild;
+        }
         else max = node;
         if(node.leftChild != null && max.key < node.leftChild.key) max = node.leftChild;
 

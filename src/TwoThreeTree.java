@@ -8,12 +8,12 @@ public class TwoThreeTree<T> {
      */
     public TwoThreeTree(Node<T> root){
         this.root = root;
-        this.root.leftChild = new Node<>(root,null,Integer.MIN_VALUE);
-        this.root.middleChild = new Node<>(root,null,Integer.MAX_VALUE);
+        this.root.leftChild = new Node<>(root,null,Integer.MIN_VALUE,Integer.MAX_VALUE);
+        this.root.middleChild = new Node<>(root,null,Integer.MAX_VALUE,Integer.MAX_VALUE);
         this.root.key = Integer.MAX_VALUE;
     }
     public TwoThreeTree(){
-        this(new Node<>(null,null,Integer.MAX_VALUE));
+        this(new Node<>(null,null,Integer.MAX_VALUE,Integer.MAX_VALUE));
     }
     public Node<T> getRoot(){
         return this.root;
@@ -142,8 +142,8 @@ public class TwoThreeTree<T> {
             UpdateKey(parentSave);
             parentSave = parentSave.parent;
         }
-        if(newNode != null){
-            Node<T> newRoot = new Node<>(null,null,0);
+        if(newNode != null){ //need a new root
+            Node<T> newRoot = new Node<>(null,null,Integer.MAX_VALUE,Integer.MAX_VALUE);
             SetChildren(newRoot,parentSave,newNode,null);
             this.root = newRoot;
         }

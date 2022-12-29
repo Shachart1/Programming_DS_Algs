@@ -4,17 +4,17 @@ public class Main {
     public static void main(String[] args) {
 
         Node<Faculty> testNode_a = new Node<Faculty>(null,null,null,
-                null,new Faculty(4,"a"),4);
+                null,new Faculty(4,"a"),4,4);
         Node<Faculty> testNode_b = new Node<Faculty>(null,null,null,
-                null,new Faculty(2,"b"),2);
+                null,new Faculty(2,"b"),2,2);
         Node<Faculty> testNode_c = new Node<Faculty>(null,null,null,
-                null,new Faculty(5,"c"),5);
+                null,new Faculty(5,"c"),5,5);
         Node<Faculty> testNode_d = new Node<Faculty>(null,null,null,
-                null,new Faculty(1,"d"),1);
+                null,new Faculty(1,"d"),1,1);
         Node<Faculty> testNode_e = new Node<Faculty>(null,null,null,
-                null,new Faculty(6,"e"),6);
+                null,new Faculty(6,"e"),6,6);
         Node<Faculty> testNode_f = new Node<Faculty>(null,null,null,
-                null,new Faculty(3,"f"),3);
+                null,new Faculty(3,"f"),3,3);
 
         /** OUR TESTS START HERE **/
         TwoThreeTree testTree = new TwoThreeTree();
@@ -38,6 +38,34 @@ public class Main {
         testTree.Delete(testNode_f); // removing 3
         testTree.printTree();
         System.out.println();
+
+
+        Node<Faculty> testNode_aH = new Node<Faculty>(null,null,null,
+                null,new Faculty(4,"a"),10,4);
+        Node<Faculty> testNode_bH = new Node<Faculty>(null,null,null,
+                null,new Faculty(2,"b"),12,2);
+        Node<Faculty> testNode_cH = new Node<Faculty>(null,null,null,
+                null,new Faculty(5,"c"),8,5);
+        Node<Faculty> testNode_dH = new Node<Faculty>(null,null,null,
+                null,new Faculty(1,"d"),10,1);
+        Node<Faculty> testNode_eH = new Node<Faculty>(null,null,null,
+                null,new Faculty(6,"e"),8,6);
+        Node<Faculty> testNode_fH = new Node<Faculty>(null,null,null,
+                null,new Faculty(3,"f"),5,3);
+
+
+        DynamicHeap testHeap = new DynamicHeap();
+        testHeap.heapInsert(testNode_aH); //faculty "a" has 10 points
+        testHeap.heapInsert(testNode_bH); //faculty "b" has 12 points. They win the tournament
+        testHeap.heapInsert(testNode_cH); //faculty "c" has 8 points
+        testHeap.heapInsert(testNode_dH); //faculty "d" has 10 points
+        testHeap.heapInsert(testNode_eH); //faculty "e" has 8 points
+        testHeap.heapInsert(testNode_fH); //faculty "f" has 5 points
+
+
+        testHeap.heapIncreaseKey(6,testNode_fH); // draw between f and c, f still last
+        testHeap.heapIncreaseKey(11,testNode_eH); // draw between f and c, bumps c above e
+
 
 
         /** OUR TESTS ENDS HERE **/
