@@ -69,13 +69,67 @@ public class DynamicHeap<T> { //Max Heap
      * @param k
      * @param node
      */
-    public void heapIncreaseKey(int k, Node<T> node){
-        if(k <= node.key){return;} //TODO - add exception here
-        node.key = k;
-        heapify(node.parent); // need to make sure this is still a heap
+    public void heapIncreaseKey(int k, Node<T> x){
+        if(k <= x.key){return;} //TODO - add exception here
+        x.key = k;
+        heapify(x.parent); // need to make sure this is still a heap
     } //TODO - tests
 
+    // we should add a getindex because if we want to use value, T has to be comparable and that is a problem
+    // because the faculty class for example is not comparable
+    // newsize should be called with the current size + 1
+    public void nextInsertionFounder(int newSize, Node<T> node, String a){
+        if(node == null){return;}
+        else if(node.getIndex() == Math.floor(newSize/2)) {
+            if (newSize % 2 == 0) {
+                nextInsertionFounder(newSize, node.getLeftChild(), a + "0");
+            } else {
+                nextInsertionFounder(newSize, node.getMiddleChild(), a + "1");
+            }
+        }
+        else if(node.getIndex() > Math.floor(newSize/2)){
+            nextInsertionFounder(newSize, node.getLeftChild(), a + "0");
+        }
+        else{nextInsertionFounder(newSize,node.getMiddleChild(), a+"1");}
+        }
 
-    public Node<T> extractMin(){return null;} //TODO - Ilan
-    public void heapInsert(Node<T> x){} //TODO - Ilan
+    public Node<T> nextInsertionParent(int newSize, Node<T> node){
+        String path = "";
+        nextInsertionFounder(newSize, node, path);
+        int j = path.length() - 2; // (till the parent)
+        int i = 0;
+        String zero = "0";
+        String one = "1";
+        Node<T> parent = null;
+        while (i <= j){
+            if(path.charAt(i) == '0'){ // why it does not work?
+                parent = root.getLeftChild();
+            }
+            else{
+                parent = root.getRightChild();
+            }
+            i++;
+        }
+        return parent;
+    }
+// extract max?
+    // increase key should have another argument
+    // extractMax might need the structure of the heap
+    // heapInsert - if we want to insert a node in a leaf we have to know which one is the right most leaf
+    public Node<T> extractMin(){}
+    public Node<T> extractMax(){
+
+    }//TODO - Ilan it
+    public void heapInsert(Node<T> x){
+        if(root == null){root = x;}
+        String pathToInsertion = "";
+        Node<T> parent = root;
+        int j;
+        boolean Found = false;
+        nextInsertionFounder(this.heapSize + 1, this.getRoot(), pathToInsertion);
+        while(Found == false){
+            pathToInsertion()
+
+    }
+    } //TODO - Ilan
 }

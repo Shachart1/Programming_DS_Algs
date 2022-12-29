@@ -5,6 +5,7 @@ public class Node<T> {
     Node<T> rightChild;
     int key;
     T value;
+    int index;
 
     // Constructors
     public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key){
@@ -77,6 +78,7 @@ public class Node<T> {
 
     public void setValue(T key){this.value=key;}
 
+    public int getIndex(){return this.index;}
 
 
 

@@ -245,10 +245,78 @@ public class TwoThreeTree<T> {
 
 
 
+// we get the node that we want to update
 
+    public void UpdateNode(Node<T> Node,  int key){
+        int oldKey = Node.getKey();
+        Node.setKey(key);
+        if(Node.getParent().getLeftChild() == Node){ // the node is the left child
+            if(Node.getParent().getMiddleChild() != null){
+                if(Node.getParent().getRightChild() != null){ // we have 3 children
+                   if(key > Node.getParent().getRightChild().getKey()){
+                       SetChildren(Node.getParent(), Node.getParent().getMiddleChild(), Node.getParent().getRightChild(), Node);
+                   }
+                   if(key > Node.parent.getMiddleChild().getKey()) {
+                       SetChildren(Node.getParent(), Node.getParent().getMiddleChild(), Node, Node.getParent().getRightChild());
+                   }
+                }
+                else{ // we have only the left and the middle
+                    if(key > Node.getParent().getMiddleChild().getKey()){
+                        SetChildren(Node.getParent(), Node.getParent().getMiddleChild(), Node, null);
+                    }
+                }
+            }
+        }
+        else if(Node.getParent().getMiddleChild() == Node){ // the node is the middle child
+            if(Node.getParent().getRightChild() != null){
+                if(key > Node.getParent().getRightChild().getKey()){
+                    SetChildren(Node.getParent(), Node.getParent().getLeftChild(), Node.getParent().getRightChild(), Node);
+                }
+                if(key < Node.getParent().getLeftChild().getKey()){
+                    SetChildren(Node.getParent(), Node, Node.getParent().getLeftChild(), Node.getParent().getRightChild());
+                }
+            }
+            else{ // only left child exists besides the node itself
+                if(key < Node.getParent().getLeftChild().getKey()){
+                    SetChildren(Node.getParent(), Node, Node.getParent().getLeftChild(), null);
+                }
+            }
+        }
+        else{ // the node is the right child
+            if(key < oldKey){
+                if(Node.parent.getLeftChild().getKey() > key){
+                    SetChildren(Node.parent, Node, Node.getLeftChild(), Node.getMiddleChild());
+                }
+                else if(key < Node.parent.getMiddleChild().getKey()){
+                    SetChildren(Node.parent, Node.parent.getLeftChild(), Node, Node.parent.getMiddleChild());
+                }
+            }
+        }
+        UpdateKey(Node.parent); // either way we will have to update
+    } //Ilan
 
-    public void UpdateNode(Node<T> Node){} //TODO - Ilan
-    public Node<T> Search(int key){return null;} //TODO - Build and check if needed other types of search. Ilan
+    // this is a search by node, not by key
+    public Node<T> Search(Node<T> root, Node<T> wanted) {
+        if (root == null) {
+            return null;
+        }
+        if (root.getKey() == wanted.getKey()) {
+            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf
+                return root; // if its a leaf with the same value it is the right one
+            }
+            if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
+                return Search(root.getRightChild(), wanted);
+            } else { // root has the max (so max == wanted.key) than we search in the middle
+                return Search(root.getMiddleChild(), wanted);
+            }
+        } else { // right sub tree is not relevant
+            if (wanted.getKey() < root.getMiddleChild().getKey()) {
+                return Search(root.getLeftChild(), wanted);
+            } else {
+                return Search(root.getMiddleChild(), wanted);
+            }
+        }
+    } // Ilan
 
 
 
