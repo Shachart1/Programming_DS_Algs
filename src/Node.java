@@ -5,7 +5,7 @@ public class Node<T> {
     Node<T> rightChild;
     int key;
     int secondKey;
-    T value;
+    T value; // Player or Faculty
     int index;
 
     // Constructors

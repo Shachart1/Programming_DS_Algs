@@ -1,4 +1,4 @@
-public class Faculty{ // Can we do this?
+public class Faculty{
     private int faculty_id;
     private String faculty_name;
 

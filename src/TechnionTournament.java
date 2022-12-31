@@ -1,6 +1,14 @@
 import java.util.ArrayList;
 
 public class TechnionTournament implements Tournament{
+    /**
+     * facultyTree - TwoThreeTree of faculties sorted by ID's. each node has a max DynamicHeap
+     * of that faculty's player sorted by goals and a TwoThreeTree of the players sorted by ID's.
+     *
+     * goalScorers - Max DynamicHeap of all players(including free agents) sorted by goals.
+     *
+     * points - Max DynamicHeap of all faculties sorted by points.
+     */
     private TwoThreeTree<Faculty> facultyTree;
     private DynamicHeap<Player> goalScorers;
     private DynamicHeap<Faculty> points;
@@ -9,7 +17,9 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void init() {
-
+        this.facultyTree = new TwoThreeTree<Faculty>();
+        this.goalScorers = new DynamicHeap<Player>();
+        this.points = new DynamicHeap<Faculty>();
     }
 
     @Override
