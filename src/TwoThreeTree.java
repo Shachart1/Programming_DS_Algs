@@ -295,6 +295,8 @@ public class TwoThreeTree<T> {
         UpdateKey(Node.parent); // either way we will have to update
     } //Ilan
 
+    //TODO - add search by key
+
     // this is a search by node, not by key
     public Node<T> Search(Node<T> root, Node<T> wanted) {
         if (root == null) {
@@ -302,6 +304,7 @@ public class TwoThreeTree<T> {
         }
         if (root.getKey() == wanted.getKey()) {
             if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf
+                //TODO - need to add a value check?
                 return root; // if its a leaf with the same value it is the right one
             }
             if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
