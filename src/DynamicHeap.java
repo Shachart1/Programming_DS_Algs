@@ -82,7 +82,7 @@ public class DynamicHeap<T> { //Max Heap
     // we should add a getindex because if we want to use value, T has to be comparable and that is a problem
     // because the faculty class for example is not comparable
     // newsize should be called with the current size + 1
-    private void nextInsertionFounder(int newSize, Node<T> node, String a){
+    public void nextInsertionFounder(int newSize, Node<T> node, String a){
         if(node == null){return;}
         else if(node.getIndex() == Math.floor(newSize/2)) {
             if (newSize % 2 == 0) {
@@ -120,9 +120,30 @@ public class DynamicHeap<T> { //Max Heap
     // increase key should have another argument
     // extractMax might need the structure of the heap
     // heapInsert - if we want to insert a node in a leaf we have to know which one is the right most leaf
-    public Node<T> extractMin(){}
     public Node<T> extractMax(){
-
+        Node<T> extracted = this.root;
+        Node<T> temp = this.root;
+        //find the leftest node
+        while(temp.getLeftChild()!=null){
+            temp=temp.getLeftChild();
+        }
+        // set the leftest node as root
+        temp.getParent().setLeftChild(null);
+        temp.setParent(null);
+        temp.setLeftChild(extracted.getLeftChild());
+        temp.setMiddleChild(extracted.getMiddleChild());
+        temp.getLeftChild().setParent(temp);
+        temp.getMiddleChild().setParent(temp);
+        this.root = temp;
+        // cut out the extracted from the heap
+        extracted.setLeftChild(null);
+        extracted.setMiddleChild(null);
+        // reorganize the heap with heapify
+        heapify(this.root);
+        // update heap size
+        this.heapSize --;
+        //return the max node
+        return extracted;
     }//TODO - Ilan it
     public void heapInsert(Node<T> x){
         if(root == null){root = x;}
