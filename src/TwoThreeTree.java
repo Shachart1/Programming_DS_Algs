@@ -1,6 +1,8 @@
 public class TwoThreeTree<T> {
     private Node<T> root; //Savir
 
+    //TODO - alter functions to address the LL
+
     /**
      * using the inf and -inf "towers" to save checks
      * we assume there are no two identical keys since the TwoThreeTree will be used with IDs which are unique
@@ -8,7 +10,7 @@ public class TwoThreeTree<T> {
      */
     public TwoThreeTree(Node<T> root){
         this.root = root;
-        this.root.leftChild = new Node<>(root,null,Integer.MIN_VALUE,Integer.MAX_VALUE);
+        this.root.leftChild = new Node<>(root,null,Integer.MIN_VALUE,Integer.MIN_VALUE);
         this.root.middleChild = new Node<>(root,null,Integer.MAX_VALUE,Integer.MAX_VALUE);
         this.root.key = Integer.MAX_VALUE;
     }
@@ -24,9 +26,18 @@ public class TwoThreeTree<T> {
      * @param parent
      */
     private void UpdateKey(Node<T> parent){
-        if (parent.middleChild == null){parent.key = parent.leftChild.key; return;} //assuming we call the function not on a leaf
-        if(parent.rightChild == null){parent.key = parent.middleChild.key; return;}
+        if (parent.middleChild == null) {
+            parent.key = parent.leftChild.key;
+            parent.secondKey = parent.leftChild.secondKey;
+            return;
+        } //assuming we call the function not on a leaf
+        if(parent.rightChild == null){
+            parent.key = parent.middleChild.key;
+            parent.secondKey = parent.middleChild.secondKey;
+            return;
+        }
         parent.key = parent.rightChild.key;
+        parent.secondKey = parent.rightChild.secondKey;
     }
 
 
@@ -114,6 +125,8 @@ public class TwoThreeTree<T> {
         return Split(parent,newChild);
         }
 
+
+     // TODO - ADD LL UPDATING
     /**
      * finds the place in the tree where node should be inserted
      * calls Insert_And_Split() to insert the node there
@@ -219,6 +232,9 @@ public class TwoThreeTree<T> {
                 SetChildren(parent, parent.leftChild, parent.middleChild, null);
             }
             node.parent = null; // Deleting node from the tree, assuming node is a leaf
+            // deleting the representative node from the LL
+            node.linkedNode.getParent().setLeftChild(node.linkedNode.getLeftChild());
+            node.linkedNode.getLeftChild().setParent(node.linkedNode.getParent());
         }
         // Can't rearrange. Need to borrow or merge. Delete node first
         else if(parent.leftChild == node) {
@@ -295,10 +311,11 @@ public class TwoThreeTree<T> {
         UpdateKey(Node.parent); // either way we will have to update
     } //Ilan
 
-    //TODO - add search by key
 
+
+    //TODO - add search by key(ID)
     // this is a search by node, not by key
-    public Node<T> Search(Node<T> root, Node<T> wanted) {
+    public Node<T> Search(Node<T> root, int wantedKey) {
         if (root == null) {
             return null;
         }
@@ -320,6 +337,16 @@ public class TwoThreeTree<T> {
             }
         }
     } // Ilan
+
+
+    public void updateLeaf(int key, int seconderyKey, int newKey){
+        Node<T> found = Search(this.root,seconderyKey);
+        Delete(found);
+        found.setKey(newKey);
+        Insert(this.root,found);
+    }
+
+
 
 
 

@@ -6,7 +6,7 @@ public class Node<T> {
     int key;
     int secondKey;
     T value; // Player or Faculty
-    int index;
+    Node<T> linkedNode = null;
 
     // Constructors
     public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key, int secondKey){
@@ -83,5 +83,7 @@ public class Node<T> {
     public int getIndex(){return this.index;}
 
 
+    public Node<T> compareKeys(Node<T>){ //TODO - SHACHAR
+    }
 
 }

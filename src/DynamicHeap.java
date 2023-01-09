@@ -144,6 +144,8 @@ public class DynamicHeap<T> { //Max Heap
         this.heapSize --;
         //return the max node
         return extracted;
+
+
     }//TODO - Ilan it
     public void heapInsert(Node<T> x){
         if(root == null){root = x;}

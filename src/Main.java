@@ -47,6 +47,8 @@ public class Main {
         testTree.printTree();
         System.out.println();
 
+        testTree.
+
 
         Node<Faculty> testNode_aH = new Node<Faculty>(null, null, null,
                 null, new Faculty(4, "a"), 10, 4);
