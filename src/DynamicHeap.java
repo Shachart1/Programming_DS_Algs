@@ -61,10 +61,6 @@ public class DynamicHeap<T> { //Max Heap
         }
         else max = node;
         if(node.leftChild != null && max.key < node.leftChild.key) max = node.leftChild;
-        else if(node.leftChild != null && node.key == node.leftChild.key &&
-                node.secondKey < node.leftChild.secondKey){
-            max = node.leftChild;
-        }
 
         if (max == node) return;
         switchNodes(node,max);
@@ -83,10 +79,23 @@ public class DynamicHeap<T> { //Max Heap
         heapify(x.parent); // need to make sure this is still a heap
     } //TODO - tests
 
+    // we should add a getindex because if we want to use value, T has to be comparable and that is a problem
     // because the faculty class for example is not comparable
     // newsize should be called with the current size + 1
-
-
+    public void nextInsertionFounder(int newSize, Node<T> node, String a){
+        if(node == null){return;}
+        else if(node.getIndex() == Math.floor(newSize/2)) {
+            if (newSize % 2 == 0) {
+                nextInsertionFounder(newSize, node.getLeftChild(), a + "0");
+            } else {
+                nextInsertionFounder(newSize, node.getMiddleChild(), a + "1");
+            }
+        }
+        else if(node.getIndex() > Math.floor(newSize/2)){
+            nextInsertionFounder(newSize, node.getLeftChild(), a + "0");
+        }
+        else{nextInsertionFounder(newSize,node.getMiddleChild(), a+"1");}
+        }
 
     public Node<T> nextInsertionParent(int newSize, Node<T> node){
         String path = "";
@@ -111,26 +120,10 @@ public class DynamicHeap<T> { //Max Heap
     // increase key should have another argument
     // extractMax might need the structure of the heap
     // heapInsert - if we want to insert a node in a leaf we have to know which one is the right most leaf
+    public Node<T> extractMin(){}
     public Node<T> extractMax(){
-        Node<T> newRoot = this.root;
-        Node<T> temp = this.root;
-        while(temp.leftChild != null){
-            temp = temp.getLeftChild();
-        }
-        temp.getParent().setLeftChild(null);
-        temp.setParent(null);
-        temp.setLeftChild(newRoot.getLeftChild());
-        temp.setMiddleChild(newRoot.getMiddleChild());
-        newRoot.getLeftChild().setParent(temp);
-        newRoot.getMiddleChild().setParent(temp);
-        this.root = temp;
-        heapify(temp);
-        this.heapSize --;
-        return newRoot;
-    }
 
-
-    //TODO - Ilan it
+    }//TODO - Ilan it
     public void heapInsert(Node<T> x){
         if(root == null){root = x;}
         String pathToInsertion = "";
