@@ -82,7 +82,7 @@ public class DynamicHeap<T> { //Max Heap
     // we should add a getindex because if we want to use value, T has to be comparable and that is a problem
     // because the faculty class for example is not comparable
     // newsize should be called with the current size + 1
-    public void nextInsertionFounder(int newSize, Node<T> node, String a){
+    private void nextInsertionFounder(int newSize, Node<T> node, String a){
         if(node == null){return;}
         else if(node.getIndex() == Math.floor(newSize/2)) {
             if (newSize % 2 == 0) {
