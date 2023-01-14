@@ -19,25 +19,25 @@ public class Main {
 
         /** OUR TESTS START HERE **/
         TwoThreeTree testTree = new TwoThreeTree();
-        testTree.Insert(testTree.getRoot(), testNode_a); //faculty "a" has id 4
-        testTree.Insert(testTree.getRoot(), testNode_b); //faculty "b" has id 2
-        testTree.Insert(testTree.getRoot(), testNode_c); //faculty "c" has id 5
-        testTree.Insert(testTree.getRoot(), testNode_d); //faculty "d" has id 1
-        testTree.Insert(testTree.getRoot(), testNode_e); //faculty "e" has id 6
-        testTree.Insert(testTree.getRoot(), testNode_f); //faculty "f" has id 3
+        testTree.Insert(testNode_a); //faculty "a" has id 4
+        testTree.Insert(testNode_b); //faculty "b" has id 2
+        testTree.Insert(testNode_c); //faculty "c" has id 5
+        testTree.Insert(testNode_d); //faculty "d" has id 1
+        testTree.Insert(testNode_e); //faculty "e" has id 6
+        testTree.Insert(testNode_f); //faculty "f" has id 3
         testTree.printTree();
         System.out.println();
 
         // search for nodes in edges and in middle
-        testTree.Search(testTree.getRoot(),testNode_d);
-        testTree.Search(testTree.getRoot(),testNode_f);
+        testTree.Search(testTree.getRoot(),testNode_d.key);
+        testTree.Search(testTree.getRoot(),testNode_f.key);
         // search for 6 while it exists
-        testTree.Search(testTree.getRoot(),testNode_e);
+        testTree.Search(testTree.getRoot(),testNode_e.key);
         testTree.Delete(testNode_e); // removing 6
         testTree.printTree();
         System.out.println();
         // search for 6 while it doesn't exist
-        testTree.Search(testTree.getRoot(),testNode_e);
+        testTree.Search(testTree.getRoot(),testNode_e.key);
 
         testTree.Delete(testNode_d); // removing 1
         testTree.printTree();
@@ -62,19 +62,6 @@ public class Main {
                 null, new Faculty(6, "e"), 8, 6);
         Node<Faculty> testNode_fH = new Node<Faculty>(null, null, null,
                 null, new Faculty(3, "f"), 5, 3);
-
-
-        DynamicHeap testHeap = new DynamicHeap();
-        testHeap.heapInsert(testNode_aH); //faculty "a" has 10 points
-        testHeap.heapInsert(testNode_bH); //faculty "b" has 12 points. They win the tournament
-        testHeap.heapInsert(testNode_cH); //faculty "c" has 8 points
-        testHeap.heapInsert(testNode_dH); //faculty "d" has 10 points
-        testHeap.heapInsert(testNode_eH); //faculty "e" has 8 points
-        testHeap.heapInsert(testNode_fH); //faculty "f" has 5 points
-
-
-        testHeap.heapIncreaseKey(6, testNode_fH); // draw between f and c, f still last
-        testHeap.heapIncreaseKey(11, testNode_eH); // draw between f and c, bumps c above e
 
 
         /** OUR TESTS ENDS HERE **/

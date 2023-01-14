@@ -11,9 +11,9 @@ public class TechnionTournament implements Tournament{
      * points - Max DynamicHeap of all faculties sorted by points.
      */
     private TwoThreeTree<Faculty> facultyTree; // TODO - in faculty level save player 2-3 tree and player LL
-    private LinkedList<Node<Faculty>> facultyLL; // faculty LL pointed at by the leaves of facultyTree
+    private Node<Faculty> facultyLL; // faculty LL pointed at by the leaves of facultyTree
     private TwoThreeTree<Player> playersTree; // all-players tree sorted by goals,ID(for tiebreaker)
-    private LinkedList<Node<Faculty>> playerLL; // player LL pointed at by the leaves of playerTree
+    private Node<Player> playerLL; // player LL pointed at by the leaves of playerTree
 
 
     TechnionTournament(){};
@@ -25,12 +25,12 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addFacultyToTournament(Faculty faculty) {
-
+        if(this.facultyTree.isEmpty()){this.facultyLL = new Node<>(faculty ,0,faculty.getId());}
+        this.facultyTree.Insert(new Node<>(faculty,faculty.getId(),0)); //remove root from args?
     }
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
-
     }
 
     @Override
@@ -59,19 +59,52 @@ public class TechnionTournament implements Tournament{
 
     }
 
+    /**
+     * insert into 'faculties' the top k faculties in a given order.
+     * @param faculties
+     * @param k
+     * @param ascending
+     */
     @Override
     public void getTopKFaculties(ArrayList<Faculty> faculties, int k, boolean ascending) {
-
-    } //TODO - SHACHAR
+        Node<Faculty> temp = this.facultyLL;
+        // if ascending = True - i goes from 0 to k
+        int i=0;
+        int stop =k;
+        int add = 1;
+        // if ascending = False - i goes from k to 0
+        if (!ascending){i = k; stop = 0; add = -1;}
+        while (i!=stop) {
+            if(temp != null) {
+                faculties.add(i, temp.getValue());
+                temp = temp.getLinked();
+            }
+            i += add;
+        }
+    }
 
     @Override
     public void getTopKScorers(ArrayList<Player> players, int k, boolean ascending) {
-
-    } //TODO - SHACHAR
+        Node<Player> temp = this.playerLL;
+        // if ascending = True - i goes from 0 to k
+        int i=0;
+        int stop =k;
+        int add = 1;
+        // if ascending = False - i goes from k to 0
+        if (!ascending){i = k; stop = 0; add = -1;}
+        while (i!=stop) {
+            if(temp != null) {
+                players.add(i, temp.getValue());
+                temp = temp.getLinked();
+            }
+            i += add;
+        }
+    }
+    //TODO - Think how to combine the two
 
     @Override
     public void getTheWinner(Faculty faculty) {
-
+        faculty = this.facultyLL.value;
     }
 
     ///TODO - add below your own variables and methods

@@ -72,6 +72,9 @@ public class Node<T> {
         this.rightChild = rightChild;
     }
 
+    public Node<T> getLinked(){return this.linkedNode;}
+
+    public void setLinked(Node<T> newLink){this.linkedNode = newLink;}
     public int getKey(){return this.key;}
 
     public void setKey(int key){this.key=key;}
@@ -80,10 +83,16 @@ public class Node<T> {
 
     public void setValue(T key){this.value=key;}
 
-    public int getIndex(){return this.index;}
-
-
-    public Node<T> compareKeys(Node<T>){ //TODO - SHACHAR
+    /**
+     * return the greater in compare by two keys. if equal return 'other'
+     * @param other - given node to compare to
+     * @return
+     */
+    public Node<T> compareKeys(Node<T> other){
+        if(this.key > other.getKey()){return this;}
+        else if(this.key < other.key){return other;}
+        else if(this.secondKey > other.secondKey){return this;}
+        return other;
     }
 
 }
