@@ -1,8 +1,7 @@
 public class TwoThreeTree<T> {
     private Node<T> root; //Savir
 
-
-    //TODO - alter functions to address the LL. DELETE
+    //TODO - alter functions to address the LL
 
     /**
      * using the inf and -inf "towers" to save checks
@@ -41,10 +40,6 @@ public class TwoThreeTree<T> {
         parent.secondKey = parent.rightChild.secondKey;
     }
 
-    public boolean isEmpty(){
-        if (this.root.leftChild == null) return true;
-        return false;
-    }
 
     /**
      * set the children received as parameters to be children of the parent(also parameter) in order
@@ -71,33 +66,23 @@ public class TwoThreeTree<T> {
      * @param newChild
      * @return new parent node
      */
-    private Node<T> Split(Node<T> parent, Node<T> newChild,boolean leaf){
+    private Node<T> Split(Node<T> parent, Node<T> newChild){
         Node<T> splitNode = new Node<>();
         if (newChild.key<parent.leftChild.key){ // need to insert child to leftChild and shift everyone right
             SetChildren(splitNode,parent.middleChild,parent.rightChild,null);
             SetChildren(parent,newChild,parent.leftChild,null);
-            if(leaf) {newChild.setLinked(parent.leftChild);} // update LL
         }
         else if(newChild.key<parent.middleChild.key){
             SetChildren(splitNode,parent.middleChild,parent.rightChild,null);
             SetChildren(parent,parent.leftChild,newChild,null);
-            if(leaf) { // update LL
-                parent.leftChild.setLinked(newChild);
-                newChild.setLinked(parent.middleChild);
-            }
         }
         else if(newChild.key < parent.rightChild.key){ //if we are in the split then the parent has three children
             SetChildren(splitNode,newChild,parent.rightChild,null);
             SetChildren(parent,parent.leftChild,parent.middleChild,null);
-            if(leaf) { // update LL
-                parent.middleChild.setLinked(newChild);
-                newChild.setLinked(parent.rightChild);
-            }
         }
         else{
             SetChildren(splitNode,parent.rightChild,newChild,null);
             SetChildren(parent,parent.leftChild,parent.middleChild,null);
-            if(leaf) {parent.rightChild.setLinked(newChild);} //update LL
         }
         return splitNode;
     }
@@ -110,7 +95,7 @@ public class TwoThreeTree<T> {
      * @param newChild
      * @return new node created after spilt or null if there was no split
      */
-    private Node<T> Insert_And_Split(Node<T> parent, Node<T> newChild, boolean leaf){
+    private Node<T> Insert_And_Split(Node<T> parent, Node<T> newChild){
         if (parent.parent!=null){
             parent=parent.parent;
         }
@@ -121,31 +106,23 @@ public class TwoThreeTree<T> {
         if(parent.middleChild == null){ // Found one leaf under the parent - We can insert without split
             if(parent.leftChild.key < newChild.key) {
                 SetChildren(parent,parent.leftChild,newChild,null);
-                if(leaf) parent.leftChild.setLinked(newChild); // update LL
                 return null;
             }
             SetChildren(parent,newChild,parent.leftChild,null);
-            if(leaf) newChild.setLinked(parent.leftChild); // update LL
-            return null;
-        }
-        if(parent.rightChild == null){
-            if(parent.middleChild.key < newChild.key){
-                SetChildren(parent,parent.leftChild,parent.middleChild,newChild);
-                parent.middleChild.setLinked(newChild);
-            }
-            else if(parent.leftChild.key < newChild.key){
-                SetChildren(parent,parent.leftChild,newChild,parent.middleChild);
-                parent.leftChild.setLinked(newChild);
-                newChild.setLinked(parent.middleChild);
-            }
-            else {
-                SetChildren(parent,newChild,parent.leftChild,parent.middleChild);
-                newChild.setLinked(parent.leftChild);
-            }
             return null;
         }
         // No condition was met so far - Need a split since tree is full
-        return Split(parent,newChild,leaf);
+        if(parent.rightChild == null){
+            if(parent.middleChild.key < newChild.key){
+                SetChildren(parent,parent.leftChild,parent.middleChild,newChild);
+            }
+            else if(parent.leftChild.key < newChild.key){
+                SetChildren(parent,parent.leftChild,newChild,parent.middleChild);
+            }
+            else {SetChildren(parent,newChild,parent.leftChild,parent.middleChild);}
+            return null;
+        }
+        return Split(parent,newChild);
         }
 
 
@@ -154,6 +131,7 @@ public class TwoThreeTree<T> {
      * finds the place in the tree where node should be inserted
      * calls Insert_And_Split() to insert the node there
      * updates the keys throughout the tree after insertion
+     * @param root
      * @param node
      */
     public void Insert(Node<T> node){
@@ -169,10 +147,10 @@ public class TwoThreeTree<T> {
         }
 
         Node<T> parentSave = root.parent;
-        Node<T> newNode = Insert_And_Split(root,node,true); // found, sending true since this is a leaf
+        Node<T> newNode = Insert_And_Split(root,node); // found
         while(parentSave != this.root){ //update the keys of the tree
             if(newNode != null){
-                newNode = Insert_And_Split(parentSave,newNode,false);
+                newNode = Insert_And_Split(parentSave,newNode);
             }
             UpdateKey(parentSave);
             parentSave = parentSave.parent;
@@ -182,6 +160,7 @@ public class TwoThreeTree<T> {
             SetChildren(newRoot,parentSave,newNode,null);
             this.root = newRoot;
         }
+
     }
 
 
@@ -335,7 +314,8 @@ public class TwoThreeTree<T> {
 
 
     //TODO - add search by key(ID)
-    public Node<T> Search(Node<T> root, int wantedKey) {
+    // this is a search by node, not by key
+    public Node<T> Search(int wantedKey) {
         if (root == null) {
             return null;
         }
@@ -345,15 +325,15 @@ public class TwoThreeTree<T> {
                 return root; // if its a leaf with the same value it is the right one
             }
             if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
-                return Search(root.getRightChild(), wantedKey);
+                return Search(root.getRightChild(), wanted);
             } else { // root has the max (so max == wanted.key) than we search in the middle
-                return Search(root.getMiddleChild(), wantedKey);
+                return Search(root.getMiddleChild(), wanted);
             }
         } else { // right sub tree is not relevant
-            if (wantedKey < root.getMiddleChild().getKey()) {
-                return Search(root.getLeftChild(), wantedKey);
+            if (wanted.getKey() < root.getMiddleChild().getKey()) {
+                return Search(root.getLeftChild(), wanted);
             } else {
-                return Search(root.getMiddleChild(), wantedKey);
+                return Search(root.getMiddleChild(), wanted);
             }
         }
     } // Ilan

@@ -10,8 +10,9 @@ public class TechnionTournament implements Tournament{
      *
      * points - Max DynamicHeap of all faculties sorted by points.
      */
-    private TwoThreeTree<Faculty> facultyTree; // TODO - in faculty level save player 2-3 tree and player LL
-    private Node<Faculty> facultyLL; // faculty LL pointed at by the leaves of facultyTree
+    private TwoThreeTree<Faculty> facultyTree; // TODO - in faculty level save players array and player LL
+    private TwoThreeTree<Faculty> facultyPoints;
+    private Node<Faculty> facultyLL; // faculty LL pointed at by the leaves of facultyPoints
     private TwoThreeTree<Player> playersTree; // all-players tree sorted by goals,ID(for tiebreaker)
     private Node<Player> playerLL; // player LL pointed at by the leaves of playerTree
 
@@ -27,7 +28,8 @@ public class TechnionTournament implements Tournament{
     public void addFacultyToTournament(Faculty faculty) {
         if(this.facultyTree.isEmpty()){this.facultyLL = new Node<>(faculty ,0,faculty.getId());}
         this.facultyTree.Insert(new Node<>(faculty,faculty.getId(),0)); //remove root from args?
-    }
+        //TODO - address LL in facultyPoints and facultyTree. add faculty to facultyPOINTS
+    } //TODO - SHACHAR
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
@@ -35,6 +37,8 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
+        Node<T> faculty = this.facultyTree.Search(faculty_id);
+
 
     } //TODO - ILAN
 
@@ -43,16 +47,68 @@ public class TechnionTournament implements Tournament{
 
     } //TODO -ILAN
 
+    private void sort(Node<Player>[] players){
+
+    } //TODO ILAN
+
+    private void playerGoal(int playerID, Node<Faculty> faculty){
+            Node<Player> temp;
+            temp = playersTree.Delete(playersTree.Search(playersTree.getRoot(),playerID));
+            temp.setKey(temp.getKey()+1);
+            playersTree.Insert(playersTree.getRoot(),temp);
+
+            Node<Player> tempP;
+            for(int j=0;j<11;j++){
+                tempP = faculty.playersArray[j];
+                if(playerID == tempP.getsecondKey())tempP.setKey(tempP.getKey()+1);
+            }
+            sort(faculty.playersArray);
+    }
+
+
     @Override
     public void playGame(int faculty_id1, int faculty_id2, int winner,
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
+
+        // initialize
+        Node<Faculty> home = facultyTree.Search(faculty_id1);
+        Node<Faculty> away = facultyTree.Search(faculty_id2);
+        Node<Faculty> winnerFaculty =  null;
+        if(winner == 2) winnerFaculty = away;
+        if(winner == 1) winnerFaculty = home;
+
+        // update players goals
+        int numGoals = faculty1_goals.size();
+        for (int i=0; i<numGoals; i++){
+            playerGoal(faculty1_goals.get(i),home);
+        }
+
+        numGoals = faculty2_goals.size();
+        for (int i=0; i<numGoals; i++){
+            playerGoal(faculty2_goals.get(i),away);
+        }
+
+        // update faculty points
+        if(winner!=0){
+            facultyPoints.Delete(winnerFaculty);
+            winnerFaculty.setKey(winnerFaculty.getKey() + 3);
+            facultyPoints.Insert(winnerFaculty);
+        }
+        else{
+            facultyPoints.Delete(away);
+            facultyPoints.Delete(home);
+            away.setKey(away.getKey() + 1);
+            home.setKey(home.getKey()+1);
+            facultyPoints.Insert(home);
+            facultyPoints.Insert(away);
+        }
 
     } //TODO - together Monday Mivney
 
     @Override
     public void getTopScorer(Player player) {
 
-    }
+    } //TODO SHACHAR
 
     @Override
     public void getTopScorerInFaculty(int faculty_id, Player player) {

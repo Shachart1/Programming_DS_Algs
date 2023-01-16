@@ -7,6 +7,8 @@ public class Node<T> {
     int secondKey;
     T value; // Player or Faculty
     Node<T> linkedNode = null;
+    Node<T> prevLinked = null;
+    Node<Player>[] playersArray = null;
 
     // Constructors
     public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key, int secondKey){
