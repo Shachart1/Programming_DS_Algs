@@ -243,8 +243,12 @@ public class TwoThreeTree<T> {
      * @param node
      */
     private void RemoveLL(Node<T> node){
-        node.linkedNode.getPrevLinked().setLinked(node.linkedNode.getPrevLinked());
-        node.linkedNode.getLinked().setPrevLinked(node.linkedNode.getPrevLinked());
+        if(node.linkedNode.getPrevLinked()!=null){
+            node.linkedNode.getPrevLinked().setLinked(node.linkedNode.getPrevLinked());
+        }
+        if(node.linkedNode.getLinked()!=null){
+            node.linkedNode.getLinked().setPrevLinked(node.linkedNode.getPrevLinked());
+        }
     }
 
     /**
