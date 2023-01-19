@@ -6,8 +6,8 @@ public class Node<T> {
     int key;
     int secondKey;
     T value; // Player or Faculty
-    Node<T> linkedNode = null;
-    Node<T> prevLinked = null;
+    Node<T> linkedNode;
+    Node<T> prevLinked;
     Node<Player>[] playersArray = null;
 
     // Constructors
@@ -19,6 +19,7 @@ public class Node<T> {
         this.value = value;
         this.key = key;
         this.secondKey = secondKey;
+        Node<T> linkedNode = new Node<>(value,key,secondKey);
     }
 
     public Node(Node<T> parent, Node<T> leftChild,Node<T> middleChild,T value, int key, int secondKey){
@@ -74,16 +75,25 @@ public class Node<T> {
         this.rightChild = rightChild;
     }
 
-    public Node<T> getLinked(){return this.linkedNode;}
-
-    public void setLinked(Node<T> newLink){this.linkedNode = newLink;}
     public int getKey(){return this.key;}
 
     public void setKey(int key){this.key=key;}
 
+    public int getSecondKey(){return this.secondKey;}
+
+    public void setSecondKey(int key){this.secondKey=key;}
+
     public T getValue(){return this.value;}
 
     public void setValue(T key){this.value=key;}
+
+    public Node<T> getLinked(){return this.linkedNode;}
+
+    public void setLinked(Node<T> newLink){this.linkedNode = newLink;}
+
+    public Node<T> getPrevLinked(){return this.prevLinked;}
+
+    public void setPrevLinked(Node<T> node){this.prevLinked=node;}
 
     /**
      * return the greater in compare by two keys. if equal return 'other'

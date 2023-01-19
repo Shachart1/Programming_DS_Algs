@@ -58,6 +58,50 @@ public class TwoThreeTree<T> {
         UpdateKey(parent);
     }
 
+    /**
+     * insert newLink before existingLink in the LL and update all connections
+     * @param existingLink
+     * @param newLink
+     */
+    private void updateLL(Node<T> existingLink, Node<T> newLink){
+        newLink.setPrevLinked(existingLink.getPrevLinked());
+        newLink.setLinked(existingLink);
+        newLink.getPrevLinked().setLinked(newLink);
+        existingLink.setPrevLinked(newLink);
+    }
+
+    /**
+     * find where the node should enter the tree and insert it to the corresponding place in the LL
+     * @param parent - parent of the subtree where node enters
+     * @param node
+     */
+    private void InsertLL(Node<T> parent, Node<T> node){
+        if (parent.getLeftChild() == null){ // first node in the tree
+            return;
+        }
+        Node<T> existingLink;
+        Node<T> newLink = node.getLinked();
+
+        if(node.getKey() < parent.getLeftChild().getKey() ||
+                (node.getKey() == parent.getLeftChild().getKey() &&
+                        node.getSecondKey() < parent.getLeftChild().getSecondKey())){
+
+            existingLink = parent.getLeftChild().getLinked();
+            updateLL(existingLink,newLink);
+        }
+        else if (node.getKey() < parent.getMiddleChild().getKey() ||
+                (node.getKey() == parent.getMiddleChild().getKey() &&
+                        node.getSecondKey() < parent.getMiddleChild().getSecondKey())){
+
+            existingLink = parent.getMiddleChild().getLinked();
+            updateLL(existingLink,newLink);
+        }
+        else{
+            existingLink = parent.getRightChild().getLinked();
+            updateLL(existingLink,newLink);
+        }
+    }
+
 
     /**
      * activated when a split is needed.
@@ -131,23 +175,24 @@ public class TwoThreeTree<T> {
      * finds the place in the tree where node should be inserted
      * calls Insert_And_Split() to insert the node there
      * updates the keys throughout the tree after insertion
-     * @param root
      * @param node
      */
     public void Insert(Node<T> node){
         if(this.root == null) {this.root = node; return;} //in case we have an empty tree
-        while(root.leftChild != null){ //stop when found a leaf
-            if(node.key < root.leftChild.key){
-                root=root.leftChild;
+        Node<T> temp = this.root;
+        while(temp.leftChild != null){ //stop when found a leaf
+            if(node.key < temp.leftChild.key){
+                temp=temp.leftChild;
             }
             else if(node.key < root.middleChild.key){
-                root=root.middleChild;
+                temp=temp.middleChild;
             }
-            else{root = root.rightChild;}
+            else{temp = temp.rightChild;}
         }
 
-        Node<T> parentSave = root.parent;
-        Node<T> newNode = Insert_And_Split(root,node); // found
+        Node<T> parentSave = temp.parent;
+        InsertLL(parentSave,node); // insert to the LL
+        Node<T> newNode = Insert_And_Split(temp,node); // found place in tree - Insert
         while(parentSave != this.root){ //update the keys of the tree
             if(newNode != null){
                 newNode = Insert_And_Split(parentSave,newNode);
@@ -163,6 +208,15 @@ public class TwoThreeTree<T> {
 
     }
 
+
+    /**
+     * removes the node from the LL while keeping the List connected
+     * @param node
+     */
+    private void RemoveLL(Node<T> node){
+        node.linkedNode.getPrevLinked().setLinked(node.linkedNode.getPrevLinked());
+        node.linkedNode.getLinked().setPrevLinked(node.linkedNode.getPrevLinked());
+    }
 
     /**
      * removes a node from the tree - removes link to the parent and link from the parent
@@ -222,6 +276,7 @@ public class TwoThreeTree<T> {
      */
     public void Delete(Node<T> node){
         if(node == this.root){this.root=null; return;} // Create an empty tree
+        this.RemoveLL(node); // deleting the representative node from the LL
         Node<T> parent = node.parent;
         if(parent.rightChild != null) {
             if (parent.leftChild == node) {
@@ -232,9 +287,6 @@ public class TwoThreeTree<T> {
                 SetChildren(parent, parent.leftChild, parent.middleChild, null);
             }
             node.parent = null; // Deleting node from the tree, assuming node is a leaf
-            // deleting the representative node from the LL
-            node.linkedNode.getParent().setLeftChild(node.linkedNode.getLeftChild());
-            node.linkedNode.getLeftChild().setParent(node.linkedNode.getParent());
         }
         // Can't rearrange. Need to borrow or merge. Delete node first
         else if(parent.leftChild == node) {
