@@ -6,8 +6,8 @@ public class Node<T> {
     int key;
     int secondKey;
     T value; // Player or Faculty
-    Node<T> linkedNode = null;
-    Node<T> prevLinked = null;
+    Node<T> linkedNode;
+    Node<T> prevLinked;
     Node<Player>[] playersArray = null;
 
 
@@ -20,6 +20,7 @@ public class Node<T> {
         this.value = value;
         this.key = key;
         this.secondKey = secondKey;
+        Node<T> linkedNode;
     }
 
     public Node(Node<T> parent, Node<T> leftChild,Node<T> middleChild,T value, int key, int secondKey){
@@ -75,32 +76,26 @@ public class Node<T> {
         this.rightChild = rightChild;
     }
 
-    public Node<T> getLinked(){return this.linkedNode;}
-
-    public void setLinked(Node<T> newLink){this.linkedNode = newLink;}
     public int getKey(){return this.key;}
 
     public void setKey(int key){this.key=key;}
+
+    public int getSecondKey(){return this.secondKey;}
+
+    public void setSecondKey(int key){this.secondKey=key;}
 
     public T getValue(){return this.value;}
 
     public void setValue(T key){this.value=key;}
 
-    public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
-        for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
-            if(this.playersArray[i] == null){
-                playersArray[i] = playerNode;
-            }
-        }
-    }
+    public Node<T> getLinked(){return this.linkedNode;}
 
-    public void removePlayer(int playerID){ // it will always be O(11)
-        for(int i = 0; i < 11; i++){
-            if(this.playersArray[i].getKey() == playerID){
-                playersArray[i] = null;
-            }
-        }
-    }
+    public void setLinked(Node<T> newLink){this.linkedNode = newLink;}
+
+    public Node<T> getPrevLinked(){return this.prevLinked;}
+
+    public void setPrevLinked(Node<T> node){this.prevLinked=node;}
+
     /**
      * return the greater in compare by two keys. if equal return 'other'
      * @param other - given node to compare to
