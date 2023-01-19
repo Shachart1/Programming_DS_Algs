@@ -22,13 +22,15 @@ public class TechnionTournament implements Tournament{
     @Override
     public void init() {
         this.facultyTree = new TwoThreeTree<Faculty>();
+        this.facultyPoints = new TwoThreeTree<Faculty>();
     }
 
     @Override
     public void addFacultyToTournament(Faculty faculty) {
-        if(this.facultyTree.isEmpty()){this.facultyLL = new Node<>(faculty ,0,faculty.getId());}
-        this.facultyTree.Insert(new Node<>(faculty,faculty.getId(),0)); //remove root from args?
-        //TODO - address LL in facultyPoints and facultyTree. add faculty to facultyPOINTS
+        Node<Faculty> facultyN= new Node<>(faculty ,0,faculty.getId());
+        if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
+        this.facultyTree.Insert(facultyN); //remove root from args?
+        this.facultyPoints.Insert(facultyN);
     } //TODO - SHACHAR
 
     @Override
@@ -37,7 +39,7 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
-        Node<T> faculty = this.facultyTree.Search(faculty_id);
+        //Node<Faculty> faculty = this.facultyTree.Search(faculty_id);
 
 
     } //TODO - ILAN
@@ -53,14 +55,15 @@ public class TechnionTournament implements Tournament{
 
     private void playerGoal(int playerID, Node<Faculty> faculty){
             Node<Player> temp;
-            temp = playersTree.Delete(playersTree.Search(playersTree.getRoot(),playerID));
+            //temp = playersTree.Delete(playersTree.Search(playersTree.getRoot(),playerID));
+            temp = null;
             temp.setKey(temp.getKey()+1);
-            playersTree.Insert(playersTree.getRoot(),temp);
+            playersTree.Insert(temp);
 
             Node<Player> tempP;
             for(int j=0;j<11;j++){
                 tempP = faculty.playersArray[j];
-                if(playerID == tempP.getsecondKey())tempP.setKey(tempP.getKey()+1);
+                if(playerID == tempP.getSecondKey()) tempP.setKey(tempP.getKey()+1);
             }
             sort(faculty.playersArray);
     }
@@ -71,8 +74,8 @@ public class TechnionTournament implements Tournament{
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
 
         // initialize
-        Node<Faculty> home = facultyTree.Search(faculty_id1);
-        Node<Faculty> away = facultyTree.Search(faculty_id2);
+        Node<Faculty> home = null;//facultyTree.Search(faculty_id1);
+        Node<Faculty> away = null;//facultyTree.Search(faculty_id2);
         Node<Faculty> winnerFaculty =  null;
         if(winner == 2) winnerFaculty = away;
         if(winner == 1) winnerFaculty = home;

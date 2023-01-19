@@ -19,7 +19,7 @@ public class Node<T> {
         this.value = value;
         this.key = key;
         this.secondKey = secondKey;
-        Node<T> linkedNode = new Node<>(value,key,secondKey);
+        Node<T> linkedNode;
     }
 
     public Node(Node<T> parent, Node<T> leftChild,Node<T> middleChild,T value, int key, int secondKey){
