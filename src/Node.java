@@ -72,6 +72,10 @@ public class Node<T> {
         return rightChild;
     }
 
+    public Node<Player>[] getPlayersArray(){
+        return this.playersArray;
+    }
+
     public void setRightChild(Node<T> rightChild) {
         this.rightChild = rightChild;
     }
