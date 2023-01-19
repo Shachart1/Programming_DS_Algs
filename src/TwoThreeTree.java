@@ -393,34 +393,30 @@ public class TwoThreeTree<T> {
     } //Ilan
 
 
-/*
-    //TODO - add search by key(ID)
-    // this is a search by node, not by key
-    public Node<T> Search(int wantedKey) {
+
+    //TODO - add search by key(ID) // three children
+     public Node<T> Search(int wantedKey, Node<T> root) {
         if (root == null) {
             return null;
         }
         if (root.getKey() == wantedKey) {
-            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf
-                //TODO - need to add a value check?
+            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
                 return root; // if its a leaf with the same value it is the right one
             }
-            if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
-                return Search(root.getRightChild(), wanted);
-            } else { // root has the max (so max == wanted.key) than we search in the middle
-                return Search(root.getMiddleChild(), wanted);
+
+            else { // root has the max (so max == wanted.key) than we search in the middle
+                return Search(wantedKey, root.getMiddleChild());
             }
         } else { // right sub tree is not relevant
-            if (wanted.getKey() < root.getMiddleChild().getKey()) {
-                return Search(root.getLeftChild(), wanted);
+            if (wantedKey < root.getMiddleChild().getKey()) {
+                return Search(wantedKey, root.getLeftChild());
             } else {
-                return Search(root.getMiddleChild(), wanted);
+                return Search(wantedKey,root.getMiddleChild());
             }
         }
     } // Ilan
 
 
- */
 
     public void updateLeaf(int key, int seconderyKey, int newKey){
         Node<T> found = null;//Search(this.root,seconderyKey);

@@ -108,4 +108,24 @@ public class Node<T> {
         return other;
     }
 
+
+
+    public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
+        for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
+            if(this.playersArray[i] == null){
+                playersArray[i] = playerNode;
+            }
+        }
+    }
+
+    public void removePlayer(int playerID){ // it will always be O(11)
+        for(int i = 0; i < 11; i++){
+            if(this.playersArray[i].getKey() == playerID){
+                playersArray[i] = null;
+            }
+        }
+    }
+
+
+
 }
