@@ -23,13 +23,16 @@ public class TechnionTournament implements Tournament{
     @Override
     public void init() {
         this.facultyTree = new TwoThreeTree<Faculty>();
+        this.facultyPoints = new TwoThreeTree<Faculty>();
     }
 
     @Override
     public void addFacultyToTournament(Faculty faculty) {
-        if(this.facultyTree.isEmpty()){this.facultyLL = new Node<>(faculty ,0,faculty.getId());}
-        this.facultyTree.Insert(new Node<>(faculty,faculty.getId(),0)); //remove root from args?
-        //TODO - address LL in facultyPoints and facultyTree. add faculty to facultyPOINTS
+        Node<Faculty> facultyN= new Node<>(faculty ,0,faculty.getId());
+        if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
+        this.facultyTree.Insert(facultyN); //remove root from args?
+        this.facultyPoints.Insert(facultyN);
+
     } //TODO - SHACHAR
 
     @Override
@@ -38,16 +41,14 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
-        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
-        Node<Player> playerNode = new Node<Player>(player, player.getId(), 0); // the goals num is 0
-        faculty.addPlayer(playerNode);
-        this.playersTree.Insert(playerNode); // ?????? LL changing//////
+        //Node<Faculty> faculty = this.facultyTree.Search(faculty_id);
+
+
     } //TODO - ILAN
 
     @Override
     public void removePlayerFromFaculty(int faculty_id, int player_id) {
-        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
-        faculty.removePlayer(player_id); // ?????? LL changing//////
+
     } //TODO -ILAN
 
     private void sort(Node<Player>[] players){
@@ -56,16 +57,17 @@ public class TechnionTournament implements Tournament{
 
     private void playerGoal(int playerID, Node<Faculty> faculty){
             Node<Player> temp;
-            temp = playersTree.Delete(playersTree.Search(playersTree.getRoot(),playerID));
+            //temp = playersTree.Delete(playersTree.Search(playersTree.getRoot(),playerID));
+            temp = null;
             temp.setKey(temp.getKey()+1);
-            playersTree.Insert(playersTree.getRoot(),temp);
+            playersTree.Insert(temp);
 
             Node<Player> tempP;
             for(int j=0;j<11;j++){
                 tempP = faculty.playersArray[j];
-                if(playerID == tempP.getsecondKey())tempP.setKey(tempP.getKey()+1);
+                if(playerID == tempP.getSecondKey()) tempP.setKey(tempP.getKey()+1);
             }
-            sort(faculty.playersArray); // the sort should be on the ll of all players and not on the goal one?
+            sort(faculty.playersArray);
     }
 
 
@@ -74,8 +76,8 @@ public class TechnionTournament implements Tournament{
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
 
         // initialize
-        Node<Faculty> home = facultyTree.Search(faculty_id1);
-        Node<Faculty> away = facultyTree.Search(faculty_id2);
+        Node<Faculty> home = null;//facultyTree.Search(faculty_id1);
+        Node<Faculty> away = null;//facultyTree.Search(faculty_id2);
         Node<Faculty> winnerFaculty =  null;
         if(winner == 2) winnerFaculty = away;
         if(winner == 1) winnerFaculty = home;
@@ -117,7 +119,7 @@ public class TechnionTournament implements Tournament{
     public void getTopScorerInFaculty(int faculty_id, Player player) {
 
     }
-hey its me
+
     /**
      * insert into 'faculties' the top k faculties in a given order.
      * @param faculties
