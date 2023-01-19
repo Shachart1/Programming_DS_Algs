@@ -28,6 +28,7 @@ public class Main {
         testTree.printTree();
         System.out.println();
 
+        /*
         // search for nodes in edges and in middle
         testTree.Search(testTree.getRoot(),testNode_d.key);
         testTree.Search(testTree.getRoot(),testNode_f.key);
@@ -47,21 +48,40 @@ public class Main {
         testTree.printTree();
         System.out.println();
 
-        testTree.
+
+         */
 
 
         Node<Faculty> testNode_aH = new Node<Faculty>(null, null, null,
-                null, new Faculty(4, "a"), 10, 4);
+                null, new Faculty(4, "aH"), 10, 4);
         Node<Faculty> testNode_bH = new Node<Faculty>(null, null, null,
-                null, new Faculty(2, "b"), 12, 2);
+                null, new Faculty(2, "bH"), 12, 2);
         Node<Faculty> testNode_cH = new Node<Faculty>(null, null, null,
-                null, new Faculty(5, "c"), 8, 5);
+                null, new Faculty(5, "cH"), 8, 5);
         Node<Faculty> testNode_dH = new Node<Faculty>(null, null, null,
-                null, new Faculty(1, "d"), 10, 1);
+                null, new Faculty(1, "dH"), 10, 1);
         Node<Faculty> testNode_eH = new Node<Faculty>(null, null, null,
-                null, new Faculty(6, "e"), 8, 6);
+                null, new Faculty(6, "eH"), 8, 6);
         Node<Faculty> testNode_fH = new Node<Faculty>(null, null, null,
-                null, new Faculty(3, "f"), 5, 3);
+                null, new Faculty(3, "fH"), 5, 3);
+
+
+        testTree.Insert(testNode_aH);
+        testTree.Insert(testNode_bH);
+        testTree.Insert(testNode_cH);
+        testTree.Insert(testNode_dH);
+        testTree.Insert(testNode_eH);
+        testTree.Insert(testNode_fH);
+
+        System.out.println("CHECK");
+
+        Node<Faculty> temp = testNode_bH;
+        while(temp!=null){
+            System.out.print(temp.value.getName() + " ");
+            temp = temp.getPrevLinked();
+        }
+        System.out.println("");
+        System.out.println("CHECK");
 
 
         /** OUR TESTS ENDS HERE **/
