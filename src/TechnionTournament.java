@@ -30,13 +30,14 @@ public class TechnionTournament implements Tournament{
     public void addFacultyToTournament(Faculty faculty) {
         Node<Faculty> facultyN= new Node<>(faculty ,0,faculty.getId());
         if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
-        this.facultyTree.Insert(facultyN); //remove root from args?
+        this.facultyTree.Insert(facultyN);
         this.facultyPoints.Insert(facultyN);
-    } //TODO - SHACHAR
+    }
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
     }
+
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
@@ -115,8 +116,9 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void getTopScorer(Player player) {
-
-    } //TODO SHACHAR
+        player.setId(this.playerLL.getSecondKey());
+        player.setName(this.playerLL.getValue().getName());
+    }
 
     @Override
     public void getTopScorerInFaculty(int faculty_id, Player player) {
@@ -168,7 +170,8 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void getTheWinner(Faculty faculty) {
-        faculty = this.facultyLL.value;
+        faculty.setId(this.facultyLL.getSecondKey());
+        faculty.setName(this.facultyLL.getValue().getName());
     }
 
     ///TODO - add below your own variables and methods
