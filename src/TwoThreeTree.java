@@ -404,6 +404,7 @@ public class TwoThreeTree<T> {
                 //TODO - need to add a value check?
                 return root; // if its a leaf with the same value it is the right one
             }
+
             if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
                 return Search(root.getRightChild(), wanted);
             } else { // root has the max (so max == wanted.key) than we search in the middle
