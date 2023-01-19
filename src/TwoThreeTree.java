@@ -70,6 +70,7 @@ public class TwoThreeTree<T> {
      * @param newLink
      */
     private void updateLL(Node<T> existingLink, Node<T> newLink){
+
         if(existingLink.getPrevLinked()!=null && existingLink.getPrevLinked().key != Integer.MIN_VALUE){
             newLink.setPrevLinked(existingLink.getPrevLinked());
         }
