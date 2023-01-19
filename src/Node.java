@@ -94,7 +94,8 @@ public class Node<T> {
 
     public Node<T> getPrevLinked(){return this.prevLinked;}
 
-    public void setPrevLinked(Node<T> node){this.prevLinked=node;}
+    public void setPrevLinked(Node<T> node){this.prevLinked=node;
+    }
 
     /**
      * return the greater in compare by two keys. if equal return 'other'
