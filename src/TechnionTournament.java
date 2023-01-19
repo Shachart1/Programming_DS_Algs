@@ -32,6 +32,7 @@ public class TechnionTournament implements Tournament{
         if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
         this.facultyTree.Insert(facultyN); //remove root from args?
         this.facultyPoints.Insert(facultyN);
+
     } //TODO - SHACHAR
 
     @Override
