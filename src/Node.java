@@ -85,6 +85,21 @@ public class Node<T> {
 
     public void setValue(T key){this.value=key;}
 
+    public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
+        for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
+            if(this.playersArray[i] == null){
+                playersArray[i] = playerNode;
+            }
+        }
+    }
+
+    public void removePlayer(int playerID){ // it will always be O(11)
+        for(int i = 0; i < 11; i++){
+            if(this.playersArray[i].getKey() == playerID){
+                playersArray[i] = null;
+            }
+        }
+    }
     /**
      * return the greater in compare by two keys. if equal return 'other'
      * @param other - given node to compare to

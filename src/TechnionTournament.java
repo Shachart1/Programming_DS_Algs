@@ -37,14 +37,16 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
-        Node<T> faculty = this.facultyTree.Search(faculty_id);
-
-
+        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Player> playerNode = new Node<Player>(player, player.getId(), 0); // the goals num is 0
+        faculty.addPlayer(playerNode);
+        this.playersTree.Insert(playerNode); // ?????? LL changing//////
     } //TODO - ILAN
 
     @Override
     public void removePlayerFromFaculty(int faculty_id, int player_id) {
-
+        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        faculty.removePlayer(player_id); // ?????? LL changing//////
     } //TODO -ILAN
 
     private void sort(Node<Player>[] players){
@@ -62,7 +64,7 @@ public class TechnionTournament implements Tournament{
                 tempP = faculty.playersArray[j];
                 if(playerID == tempP.getsecondKey())tempP.setKey(tempP.getKey()+1);
             }
-            sort(faculty.playersArray);
+            sort(faculty.playersArray); // the sort should be on the ll of all players and not on the goal one?
     }
 
 
