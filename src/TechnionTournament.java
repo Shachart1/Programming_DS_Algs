@@ -19,6 +19,7 @@ public class TechnionTournament implements Tournament{
 
     TechnionTournament(){};
 
+
     @Override
     public void init() {
         this.facultyTree = new TwoThreeTree<Faculty>();
