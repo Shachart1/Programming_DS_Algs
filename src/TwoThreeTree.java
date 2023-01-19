@@ -15,10 +15,16 @@ public class TwoThreeTree<T> {
         this.root.key = Integer.MAX_VALUE;
     }
     public TwoThreeTree(){
-        this(new Node<>(null,null,Integer.MAX_VALUE,Integer.MAX_VALUE));
+        this(new Node<>(Integer.MAX_VALUE,Integer.MAX_VALUE));
     }
     public Node<T> getRoot(){
         return this.root;
+    }
+
+
+    public boolean isEmpty(){
+        if(this.root.leftChild != null){return true;}
+        return false;
     }
 
     /**
@@ -56,6 +62,68 @@ public class TwoThreeTree<T> {
         if(middle != null) middle.parent = parent;
         if(right != null) right.parent = parent;
         UpdateKey(parent);
+    }
+
+    /**
+     * insert newLink before existingLink in the LL and update all connections
+     * @param existingLink
+     * @param newLink
+     */
+    private void updateLL(Node<T> existingLink, Node<T> newLink){
+        if(existingLink.getPrevLinked()!=null && existingLink.getPrevLinked().key != Integer.MIN_VALUE){
+            newLink.setPrevLinked(existingLink.getPrevLinked());
+        }
+        if(existingLink.getLinked()!=null || existingLink.key != Integer.MAX_VALUE){
+            newLink.setLinked(existingLink);
+        }
+        if(existingLink.getLinked()==null && existingLink.getPrevLinked()==null){
+            newLink.setLinked(existingLink);
+            existingLink.setPrevLinked(newLink);
+        }
+        if(newLink.getPrevLinked()!=null){newLink.getPrevLinked().setLinked(newLink);}
+        if(newLink.getLinked()!=null){existingLink.setPrevLinked(newLink);}
+    }
+
+    /**
+     * find where the node should enter the tree and insert it to the corresponding place in the LL
+     * @param parent - parent of the subtree where node enters
+     * @param node
+     */
+    private void InsertLL(Node<T> parent, Node<T> node){
+        Node<T> existingLink=parent.getLeftChild();
+        if (parent.getLeftChild().key == Integer.MIN_VALUE) {
+            if (parent.getMiddleChild().key == Integer.MAX_VALUE) {// first node in the tree
+                return;
+            }
+        }
+
+        if(node.getKey() < parent.getLeftChild().getKey() ||
+                (node.getKey() == parent.getLeftChild().getKey() &&
+                        node.getSecondKey() > parent.getLeftChild().getSecondKey())){
+                updateLL(existingLink, node);
+        }
+        else if (node.getKey() < parent.getMiddleChild().getKey() ||
+                (node.getKey() == parent.getMiddleChild().getKey() &&
+                        node.getSecondKey() > parent.getMiddleChild().getSecondKey())){
+
+            if(parent.getMiddleChild().getKey() != Integer.MAX_VALUE){
+                existingLink = parent.getMiddleChild();
+                updateLL(existingLink,node);
+            }
+            else{
+                updateLL(node,existingLink);
+            }
+        }
+        else{
+            existingLink = parent.getMiddleChild();
+            if(existingLink.getLinked()==null) { // insert to the end of the LL
+                existingLink.setLinked(node);
+                node.setPrevLinked(existingLink);
+                return;
+            }
+            existingLink = parent.getRightChild();
+            updateLL(existingLink,node);
+        }
     }
 
 
@@ -131,38 +199,52 @@ public class TwoThreeTree<T> {
      * finds the place in the tree where node should be inserted
      * calls Insert_And_Split() to insert the node there
      * updates the keys throughout the tree after insertion
-     * @param root
      * @param node
      */
     public void Insert(Node<T> node){
-        if(this.root == null) {this.root = node; return;} //in case we have an empty tree
-        while(root.leftChild != null){ //stop when found a leaf
-            if(node.key < root.leftChild.key){
-                root=root.leftChild;
+        if(this.root.getLeftChild() == null) {
+            this.root.setLeftChild(node);
+            return;
+        } //in case we have an empty tree
+        Node<T> temp = this.root;
+        while(temp.leftChild != null){ //stop when found a leaf
+            if(node.key < temp.leftChild.key){
+                temp=temp.leftChild;
             }
-            else if(node.key < root.middleChild.key){
-                root=root.middleChild;
+            else if(node.key < temp.middleChild.key){
+                temp=temp.middleChild;
             }
-            else{root = root.rightChild;}
+            else{temp = temp.rightChild;}
         }
 
-        Node<T> parentSave = root.parent;
-        Node<T> newNode = Insert_And_Split(root,node); // found
+        Node<T> parentSave = temp.parent;
+        InsertLL(parentSave,node); // insert to the LL
+        Node<T> newNode = Insert_And_Split(temp,node); // found place in tree - Insert
         while(parentSave != this.root){ //update the keys of the tree
+            temp = parentSave.parent;
             if(newNode != null){
                 newNode = Insert_And_Split(parentSave,newNode);
             }
             UpdateKey(parentSave);
-            parentSave = parentSave.parent;
+            parentSave = temp;
         }
         if(newNode != null){ //need a new root
-            Node<T> newRoot = new Node<>(null,null,Integer.MAX_VALUE,Integer.MAX_VALUE);
+            Node<T> newRoot = new Node<T>();
             SetChildren(newRoot,parentSave,newNode,null);
             this.root = newRoot;
         }
 
     }
 
+
+    /**
+     * removes the node from the LL while keeping the List connected
+     * @param node
+     */
+    private void RemoveLL(Node<T> node){
+        node.linkedNode.getPrevLinked().setLinked(node.linkedNode.getPrevLinked());
+        node.linkedNode.getLinked().setPrevLinked(node.linkedNode.getPrevLinked());
+    }
 
     /**
      * removes a node from the tree - removes link to the parent and link from the parent
@@ -222,6 +304,7 @@ public class TwoThreeTree<T> {
      */
     public void Delete(Node<T> node){
         if(node == this.root){this.root=null; return;} // Create an empty tree
+        this.RemoveLL(node); // deleting the representative node from the LL
         Node<T> parent = node.parent;
         if(parent.rightChild != null) {
             if (parent.leftChild == node) {
@@ -232,9 +315,6 @@ public class TwoThreeTree<T> {
                 SetChildren(parent, parent.leftChild, parent.middleChild, null);
             }
             node.parent = null; // Deleting node from the tree, assuming node is a leaf
-            // deleting the representative node from the LL
-            node.linkedNode.getParent().setLeftChild(node.linkedNode.getLeftChild());
-            node.linkedNode.getLeftChild().setParent(node.linkedNode.getParent());
         }
         // Can't rearrange. Need to borrow or merge. Delete node first
         else if(parent.leftChild == node) {
@@ -312,36 +392,40 @@ public class TwoThreeTree<T> {
     } //Ilan
 
 
-
-    //TODO - add search by key(ID) - we will have to get a root. if it is on a specific tree we will use
-    public Node<T> Search(int wantedKey, Node<T> root) {
+/*
+    //TODO - add search by key(ID)
+    // this is a search by node, not by key
+    public Node<T> Search(int wantedKey) {
         if (root == null) {
             return null;
         }
         if (root.getKey() == wantedKey) {
-            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
+            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf
+                //TODO - need to add a value check?
                 return root; // if its a leaf with the same value it is the right one
             }
-            if (root.getRightChild() != null) { // ********** check if it's a possible situation , if the tree can have 3 children *********
-                return Search(wantedKey, root.getRightChild());
+            if (root.getRightChild() != null) { // ********** check if it's a possible situation *********
+                return Search(root.getRightChild(), wanted);
             } else { // root has the max (so max == wanted.key) than we search in the middle
-                return Search(wantedKey, root.getMiddleChild());
+                return Search(root.getMiddleChild(), wanted);
             }
         } else { // right sub tree is not relevant
-            if (wantedKey < root.getMiddleChild().getKey()) {
-                return Search(wantedKey, root.getLeftChild());
+            if (wanted.getKey() < root.getMiddleChild().getKey()) {
+                return Search(root.getLeftChild(), wanted);
             } else {
-                return Search(wantedKey,root.getMiddleChild());
+                return Search(root.getMiddleChild(), wanted);
             }
         }
     } // Ilan
 
 
-    public void updateLeaf(int key, int seconderyKey, int newKey){ // ??????????
-        Node<T> found = Search();
+ */
+
+    public void updateLeaf(int key, int seconderyKey, int newKey){
+        Node<T> found = null;//Search(this.root,seconderyKey);
         Delete(found);
         found.setKey(newKey);
-        Insert(this.getRoot(),found);
+        Insert(found);
     }
 
 
