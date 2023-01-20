@@ -79,8 +79,8 @@ public class TechnionTournament implements Tournament{
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
 
         // initialize
-        Node<Faculty> home = facultyTree.Search(faculty_id1);
-        Node<Faculty> away = facultyTree.Search(faculty_id2);
+        Node<Faculty> home = facultyTree.Search(faculty_id1,this.facultyTree.getRoot());
+        Node<Faculty> away = facultyTree.Search(faculty_id2,this.facultyTree.getRoot());
         Node<Faculty> winnerFaculty =  null;
         if(winner == 2) winnerFaculty = away;
         if(winner == 1) winnerFaculty = home;
