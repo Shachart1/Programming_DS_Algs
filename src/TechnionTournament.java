@@ -10,7 +10,7 @@ public class TechnionTournament implements Tournament{
      *
      * points - Max DynamicHeap of all faculties sorted by points.
      */
-    private TwoThreeTree<Faculty> facultyTree; // TODO - in faculty level save players array and player LL
+    private TwoThreeTree<Faculty> facultyTree;
     private TwoThreeTree<Faculty> facultyPoints;
     private Node<Faculty> facultyLL; // faculty LL pointed at by the leaves of facultyPoints
     private TwoThreeTree<Player> playersTree; // all-players tree sorted by goals,ID(for tiebreaker)
@@ -24,6 +24,7 @@ public class TechnionTournament implements Tournament{
     public void init() {
         this.facultyTree = new TwoThreeTree<Faculty>();
         this.facultyPoints = new TwoThreeTree<Faculty>();
+        this.playersTree = new TwoThreeTree<Player>();
     }
 
     @Override
@@ -36,42 +37,40 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
+        Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        this.facultyTree.Delete(removed);
     }
 
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
         Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
-        Node<Player> playerNode = new Node<Player>(player, player.getId(), 0); // the goals num is 0
+        Node<Player> playerNode = new Node<Player>(player, 0, player.getId()); // the goals num is 0
         faculty.addPlayer(playerNode);
         if(this.playersTree.isEmpty()){
             this.playerLL = playerNode;
         }
-        this.playersTree.Insert(playerNode); // ?????? LL changing//////
-    } //TODO - ILAN
+        this.playersTree.Insert(playerNode);
+    }
 
     @Override
     public void removePlayerFromFaculty(int faculty_id, int player_id) {
         Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
         faculty.removePlayer(player_id);
-    } //TODO -ILAN
-
-    private void sort(Node<Player>[] players){
-
-    } //TODO ILAN
+    }
 
     private void playerGoal(int playerID, Node<Faculty> faculty){
-            Node<Player> temp;
-            temp = playersTree.Search(playerID, playersTree.getRoot());
-            playersTree.Delete(temp);
-            temp.setKey(temp.getKey()+1);
-            playersTree.Insert(temp);
+        Node<Player> temp;
+        temp = playersTree.Search(playerID, playersTree.getRoot());
+        playersTree.Delete(temp);
+        temp.setKey(temp.getKey()+1);
+        playersTree.Insert(temp);
 
-            Node<Player> tempP;
-            for(int j=0;j<11;j++){
-                tempP = faculty.playersArray[j];
-                if(playerID == tempP.getSecondKey())tempP.setKey(tempP.getKey()+1);
-            }
+        Node<Player> tempP;
+        for(int j=0;j<11;j++){
+            tempP = faculty.playersArray[j];
+            if(playerID == tempP.getSecondKey())tempP.setKey(tempP.getKey()+1);
+        }
     }
 
 
@@ -122,7 +121,21 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void getTopScorerInFaculty(int faculty_id, Player player) {
-
+        Node<Faculty> found = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Player>[] playersArray = found.getPlayersArray();
+        Node<Player> maybeWinner = null;
+        int maxgoals = -1;
+        for(int i = 0; i < 11; i++){
+            if(playersArray[i].getKey() > maxgoals){
+                maybeWinner = playersArray[i];
+                maxgoals = playersArray[i].getKey();
+            }
+            else if(playersArray[i].getKey() == maxgoals && (playersArray[i].getSecondKey() < maybeWinner.getSecondKey())){
+                maybeWinner = playersArray[i];
+            }
+        }
+        player.setId(maybeWinner.getSecondKey());
+        player.setName(maybeWinner.getValue().getName());
     }
 
     /**

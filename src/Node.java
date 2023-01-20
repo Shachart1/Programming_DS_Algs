@@ -10,7 +10,6 @@ public class Node<T> {
     Node<T> prevLinked;
     Node<Player>[] playersArray = null;
 
-
     // Constructors
     public Node(Node<T> parent,Node<T> leftChild,Node<T> middleChild,Node<T> rightChild, T value, int key, int secondKey){
         this.parent = parent;
@@ -96,19 +95,6 @@ public class Node<T> {
 
     public void setPrevLinked(Node<T> node){this.prevLinked=node;}
 
-    /**
-     * return the greater in compare by two keys. if equal return 'other'
-     * @param other - given node to compare to
-     * @return
-     */
-    public Node<T> compareKeys(Node<T> other){
-        if(this.key > other.getKey()){return this;}
-        else if(this.key < other.key){return other;}
-        else if(this.secondKey > other.secondKey){return this;}
-        return other;
-    }
-
-
 
     public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
         for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
@@ -120,7 +106,7 @@ public class Node<T> {
 
     public void removePlayer(int playerID){ // it will always be O(11)
         for(int i = 0; i < 11; i++){
-            if(this.playersArray[i].getKey() == playerID){
+            if(this.playersArray[i].getSecondKey() == playerID){
                 playersArray[i] = null;
             }
         }
