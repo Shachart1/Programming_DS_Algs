@@ -408,15 +408,20 @@ public class TwoThreeTree<T> {
                 if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
                     return root; // if its a leaf with the same value it is the right one
                 }
-
+                if(root.getRightChild() != null) {
+                    return Search(wantedKey,root.getRightChild(),true);
+                }
                 else { // root has the max (so max == wanted.key) than we search in the middle
                     return Search(wantedKey, root.getMiddleChild(),true);
                 }
             } else { // right sub tree is not relevant
-                if (wantedKey < root.getMiddleChild().getKey()) {
+                if (wantedKey < root.getLeftChild().getKey()) {
                     return Search(wantedKey, root.getLeftChild(),true );
-                } else {
+                } else if(wantedKey < root.getMiddleChild().getKey()){
                     return Search(wantedKey,root.getMiddleChild(),true);
+                }
+                else{
+                    return Search(wantedKey,root.getRightChild(),true);
                 }
             }
         }
@@ -425,15 +430,20 @@ public class TwoThreeTree<T> {
                 if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
                     return root; // if its a leaf with the same value it is the right one
                 }
-
+                if(root.getRightChild() != null) {
+                    return Search(wantedKey,root.getRightChild(),false);
+                }
                 else { // root has the max (so max == wanted.key) than we search in the middle
                     return Search(wantedKey, root.getMiddleChild(),false);
                 }
             } else { // right sub tree is not relevant
-                if (wantedKey < root.getMiddleChild().getKey()) {
-                    return Search(wantedKey, root.getLeftChild(),false);
-                } else {
+                if (wantedKey < root.getLeftChild().getSecondKey()) {
+                    return Search(wantedKey, root.getLeftChild(),false );
+                } else if(wantedKey < root.getMiddleChild().getSecondKey()){
                     return Search(wantedKey,root.getMiddleChild(),false);
+                }
+                else{
+                    return Search(wantedKey,root.getRightChild(),false);
                 }
             }
 
