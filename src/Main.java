@@ -18,12 +18,12 @@ public class Main {
 
         /** OUR TESTS START HERE **/
         TwoThreeTree testTree = new TwoThreeTree();
-        testTree.Insert(testNode_a); //faculty "a" has id 4
-        testTree.Insert(testNode_b); //faculty "b" has id 2
-        testTree.Insert(testNode_c); //faculty "c" has id 5
-        testTree.Insert(testNode_d); //faculty "d" has id 1
-        testTree.Insert(testNode_e); //faculty "e" has id 6
-        testTree.Insert(testNode_f); //faculty "f" has id 3
+        testTree.Insert(testNode_a,true); //faculty "a" has id 4
+        testTree.Insert(testNode_b,true); //faculty "b" has id 2
+        testTree.Insert(testNode_c,true); //faculty "c" has id 5
+        testTree.Insert(testNode_d,true); //faculty "d" has id 1
+        testTree.Insert(testNode_e,true); //faculty "e" has id 6
+        testTree.Insert(testNode_f,true); //faculty "f" has id 3
         testTree.printTree();
         System.out.println();
 
@@ -37,18 +37,18 @@ public class Main {
         // search for 6 while it exists
         test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
         if(test == testNode_e){System.out.println("success");}
-        testTree.Delete(testNode_e); // removing 6
+        testTree.Delete(testNode_e,true); // removing 6
         testTree.printTree();
         System.out.println();
         // search for 6 while it doesn't exist
         test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
         if(test == null){System.out.println("success");}
 
-        testTree.Delete(testNode_d); // removing 1
+        testTree.Delete(testNode_d,true); // removing 1
         testTree.printTree();
         System.out.println();
 
-        testTree.Delete(testNode_f); // removing 3
+        testTree.Delete(testNode_f,true); // removing 3
         testTree.printTree();
         System.out.println();
 
@@ -77,12 +77,12 @@ public class Main {
                 null, new Faculty(3, "fH"), 5, 3);
 
 
-        testTree.Insert(testNode_aH);
-        testTree.Insert(testNode_bH);
-        testTree.Insert(testNode_cH);
-        testTree.Insert(testNode_dH);
-        testTree.Insert(testNode_eH);
-        testTree.Insert(testNode_fH);
+        testTree.Insert(testNode_aH,true);
+        testTree.Insert(testNode_bH,true);
+        testTree.Insert(testNode_cH,true);
+        testTree.Insert(testNode_dH,true);
+        testTree.Insert(testNode_eH,true);
+        testTree.Insert(testNode_fH,true);
 
         System.out.println("CHECK");
 

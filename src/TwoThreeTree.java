@@ -202,7 +202,7 @@ public class TwoThreeTree<T> {
      * updates the keys throughout the tree after insertion
      * @param node
      */
-    public void Insert(Node<T> node){
+    public void Insert(Node<T> node, boolean LL){
         if(this.root.getLeftChild() == null) {
             this.root.setLeftChild(node);
             return;
@@ -219,7 +219,7 @@ public class TwoThreeTree<T> {
         }
 
         Node<T> parentSave = temp.parent;
-        InsertLL(parentSave,node); // insert to the LL
+        if(LL){InsertLL(parentSave,node);} // insert to the LL
         Node<T> newNode = Insert_And_Split(temp,node); // found place in tree - Insert
         while(parentSave != this.root){ //update the keys of the tree
             temp = parentSave.parent;
@@ -318,9 +318,9 @@ public class TwoThreeTree<T> {
      * working under the assumption that only leaves are getting deleted
      * @param node
      */
-    public void Delete(Node<T> node){
+    public void Delete(Node<T> node, boolean LL){
         if(node == this.root){this.root=null; return;} // Create an empty tree
-        this.RemoveLL(node); // deleting the representative node from the LL
+        if(LL) {this.RemoveLL(node);} // deleting the representative node from the LL
         Node<T> parent = node.parent;
         if(parent.rightChild != null) {
             if (parent.leftChild == node) {
@@ -465,9 +465,9 @@ public class TwoThreeTree<T> {
 
     public void updateLeaf(int key, int seconderyKey, int newKey){
         Node<T> found = null;//Search(this.root,seconderyKey);
-        Delete(found);
+        Delete(found,true);
         found.setKey(newKey);
-        Insert(found);
+        Insert(found,true);
     }
 
 

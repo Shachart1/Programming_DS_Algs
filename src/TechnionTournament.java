@@ -30,14 +30,23 @@ public class TechnionTournament implements Tournament{
     public void addFacultyToTournament(Faculty faculty) {
         Node<Faculty> facultyN= new Node<>(faculty ,0,faculty.getId());
         if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
-        this.facultyTree.Insert(facultyN);
-        this.facultyPoints.Insert(facultyN);
+        this.facultyTree.Insert(facultyN,true);
+        this.facultyPoints.Insert(facultyN,false);
+        // update LL pointer if needed
+        if(facultyLL.getPrevLinked() != null){
+            facultyLL = facultyLL.getPrevLinked();
+        }
+        facultyN.playersArray = new Node[11];
     }
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
         Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
-        this.facultyTree.Delete(removed);
+        // update LL pointer if needed
+        if(facultyLL == removed){
+            facultyLL = removed.getLinked();
+        }
+        this.facultyTree.Delete(removed,true);
     }
 
 
@@ -49,7 +58,11 @@ public class TechnionTournament implements Tournament{
         if(this.playersTree.isEmpty()){
             this.playerLL = playerNode;
         }
-        this.playersTree.Insert(playerNode);
+        this.playersTree.Insert(playerNode,true);
+        // update LL pointer if needed
+        if(playerLL.getPrevLinked() != null){
+            playerLL = playerLL.getPrevLinked();
+        }
     }
 
     @Override
@@ -61,9 +74,18 @@ public class TechnionTournament implements Tournament{
     private void playerGoal(int playerID, Node<Faculty> faculty){
         Node<Player> temp;
         temp = playersTree.Search(playerID, playersTree.getRoot(),true);
-        playersTree.Delete(temp);
+        // update LL if needed
+        if(playerLL==temp){
+            playerLL = temp.getLinked();
+        }
+        playersTree.Delete(temp,true);
         temp.setKey(temp.getKey()+1);
-        playersTree.Insert(temp);
+        playersTree.Insert(temp,true);
+        // update LL pointer if needed
+        if(playerLL.getPrevLinked() != null){
+            playerLL = playerLL.getPrevLinked();
+        }
+
 
         Node<Player> tempP;
         for(int j=0;j<11;j++){
@@ -97,17 +119,36 @@ public class TechnionTournament implements Tournament{
 
         // update faculty points
         if(winner!=0){
-            facultyPoints.Delete(winnerFaculty);
+            // update LL pointer if needed
+            if(facultyLL == winnerFaculty){
+                facultyLL = facultyLL.getLinked();
+            }
+            facultyPoints.Delete(winnerFaculty,true);
             winnerFaculty.setKey(winnerFaculty.getKey() + 3);
-            facultyPoints.Insert(winnerFaculty);
+            facultyPoints.Insert(winnerFaculty,true);
+            // update LL pointer if needed
+            if(facultyLL.getPrevLinked() != null){
+                facultyLL = facultyLL.getPrevLinked();
+            }
         }
         else{
-            facultyPoints.Delete(away);
-            facultyPoints.Delete(home);
+            // update LL pointer if needed
+            if(facultyLL == away){
+                facultyLL = facultyLL.getLinked();
+            }
+            if(facultyLL == home){
+                facultyLL = facultyLL.getLinked();
+            }
+            facultyPoints.Delete(away,true);
+            facultyPoints.Delete(home,true);
             away.setKey(away.getKey() + 1);
             home.setKey(home.getKey()+1);
-            facultyPoints.Insert(home);
-            facultyPoints.Insert(away);
+            facultyPoints.Insert(home,true);
+            facultyPoints.Insert(away,true);
+            // update LL pointer if needed
+            while(facultyLL.getPrevLinked() != null){
+                facultyLL = facultyLL.getPrevLinked();
+            }
         }
 
     } //TODO - together Monday Mivney
