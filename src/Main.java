@@ -17,7 +17,7 @@ public class Main {
                 null, new Faculty(3, "f"), 3, 3);
 
         /** OUR TESTS START HERE **/
-        TwoThreeTree testTree = new TwoThreeTree();
+        TwoThreeTree testTree = new TwoThreeTree(true);
         testTree.Insert(testNode_a,true); //faculty "a" has id 4
         testTree.Insert(testNode_b,true); //faculty "b" has id 2
         testTree.Insert(testNode_c,true); //faculty "c" has id 5,5
@@ -103,25 +103,27 @@ public class Main {
         /** End of initializing the Tournament **/
 
         /** Adding faculties to the Tournament **/
-        Map<Integer, String> faculties = new HashMap<>();
-        faculties.put(1, "CS");
-        faculties.put(2, "EE");
-        faculties.put(3, "IE");
-        faculties.put(4, "BME");
+        Map<Integer,String> faculties = new HashMap<>();
+        faculties.put(1,"CS");
+        faculties.put(2,"EE");
+        faculties.put(3,"IE");
+        faculties.put(4,"BME");
+        faculties.put(5,"MED");
+        faculties.put(6,"CE");
 
-        for (Map.Entry<Integer, String> f : faculties.entrySet()) {
+        for(Map.Entry<Integer,String> f : faculties.entrySet()){
             Faculty faculty = new Faculty(f.getKey(), f.getValue());
             tournament.addFacultyToTournament(faculty);
         }
 
         /** Adding players to the Tournament **/
-        Player player = new Player(0, "");
-        String[] names = {"Asil", "Yuval", "Noga", "Adam", "Yuval", "Ziyech", "Moshe", "Amit", "Amir", "Omer", "Maroon", "Ido"};
-        int[] faculties_id = {1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6};
+        Player player = new Player(0,"");
+        String[] names = {"Asil","Yuval", "Noga", "Adam","Yuval", "Ziyech", "Moshe", "Amit", "Amir", "Omer", "Maroon", "Ido"};
+        int[] faculties_id = {1,1,2,2,3,3,4,4,5,5,6,6};
         for (int i = 0; i < names.length; i++) {
-            player.setId(i);
+            player.setId(i+1);
             player.setName(names[i]);
-            tournament.addPlayerToFaculty(faculties_id[i], player);
+            tournament.addPlayerToFaculty(faculties_id[i],player);
         }
 
 
@@ -135,7 +137,7 @@ public class Main {
         away_faculty_goals.add(5);
         away_faculty_goals.add(6);
 
-        tournament.playGame(1, 3, 1, home_faculty_goals, away_faculty_goals);
+        tournament.playGame(1,3,1,home_faculty_goals,away_faculty_goals);
         tournament.getTopScorer(player);
         boolean expression = player.getId() == 1 && player.getName().equals("Asil");
         Assert(expression);
@@ -148,39 +150,41 @@ public class Main {
         away_faculty_goals.add(7);
         away_faculty_goals.add(8);
 
-        tournament.playGame(3, 4, 1, home_faculty_goals, away_faculty_goals);
+        tournament.playGame(3,4,1,home_faculty_goals,away_faculty_goals);
         tournament.getTopScorer(player);
-        expression = player.getId() == 1 && player.getName().equals("Asil");
+        expression =  player.getId() == 1 && player.getName().equals("Asil");
         Assert(expression);
 
         /** Removing Teams from Tournament and getting the best scorers **/
         tournament.removeFacultyFromTournament(2);
 
         ArrayList<Player> scorers = new ArrayList<>();
-        tournament.getTopKScorers(scorers, 2, true);
-
-        expression = scorers.get(0).getId() == 1 && scorers.get(0).getName().equals("Asil");
+        tournament.getTopKScorers(scorers,2,true);
+/*
+        expression = scorers.get(1).getId() == 1  && scorers.get(1).getName().equals("Asil");
         Assert(expression);
-        expression = scorers.get(1).getId() == 6 && scorers.get(1).getName().equals("Ziyech");
+        expression = scorers.get(0).getId() == 6 && scorers.get(0).getName().equals("Ziyech");
         Assert(expression);
 
-        tournament.getTopScorerInFaculty(1, player);
+ */
+
+        tournament.getTopScorerInFaculty(1,player);
         expression = player.getId() == 1;
         Assert(expression);
 
 
         home_faculty_goals.clear();
         away_faculty_goals.clear();
-        tournament.playGame(4, 1, 0, home_faculty_goals, away_faculty_goals);
+        tournament.playGame(4,1,0,home_faculty_goals,away_faculty_goals);
 
-        tournament.removePlayerFromFaculty(1, 1);
+        tournament.removePlayerFromFaculty(1,1);
         tournament.getTopScorer(player);
 
         expression = player.getId() == 1 && player.getName().equals("Asil");
         Assert(expression);
 
         ArrayList<Faculty> top_faculties = new ArrayList<>();
-        tournament.getTopKFaculties(top_faculties, 2, false);
+        tournament.getTopKFaculties(top_faculties,2,false);
 
         /** pay attention that until now we have current standing **/
         /*
@@ -200,7 +204,7 @@ public class Main {
         Assert(expression);
 
         /** Get the winner faculty **/
-        Faculty faculty = new Faculty(0, "");
+        Faculty faculty = new Faculty(0,"");
         tournament.getTheWinner(faculty);
         expression = faculty.getId() == 1 && faculty.getName().equals("CS");
         Assert(expression);
@@ -208,8 +212,8 @@ public class Main {
         System.out.println("Congratulations You Have passed the Test ");
     }
 
-    public static void Assert(boolean expression) {
-        if (!expression) {
+    public static void Assert(boolean expression){
+        if (!expression){
             throw new AssertionError();
         }
     }

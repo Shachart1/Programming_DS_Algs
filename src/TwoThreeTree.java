@@ -8,14 +8,20 @@ public class TwoThreeTree<T> {
      * we assume there are no two identical keys since the TwoThreeTree will be used with IDs which are unique
      * @param root
      */
-    public TwoThreeTree(Node<T> root){
+    public TwoThreeTree(Node<T> root,boolean minmax){
         this.root = root;
-        this.root.leftChild = new Node<>(root,null,Integer.MIN_VALUE,Integer.MIN_VALUE);
-        this.root.middleChild = new Node<>(root,null,Integer.MAX_VALUE,Integer.MAX_VALUE);
+        if(minmax) {
+            this.root.leftChild = new Node<>(root, null, Integer.MIN_VALUE, Integer.MIN_VALUE);
+            this.root.middleChild = new Node<>(root, null, Integer.MAX_VALUE, Integer.MAX_VALUE);
+        }
+        else{
+            this.root.leftChild = new Node<>(root, null, Integer.MIN_VALUE, Integer.MAX_VALUE);
+            this.root.middleChild = new Node<>(root, null, Integer.MAX_VALUE, Integer.MIN_VALUE);
+        }
         this.root.key = Integer.MAX_VALUE;
     }
-    public TwoThreeTree(){
-        this(new Node<>(Integer.MAX_VALUE,Integer.MAX_VALUE));
+    public TwoThreeTree(boolean minmax){
+        this(new Node<>(Integer.MAX_VALUE,Integer.MAX_VALUE),minmax);
     }
     public Node<T> getRoot(){
         return this.root;
@@ -212,6 +218,10 @@ public class TwoThreeTree<T> {
                 SetChildren(parent,newChild,parent.leftChild,parent.middleChild);
                 return null;
             }
+            if(parent.middleChild == null){
+                SetChildren(parent,parent.leftChild,newChild,null);
+                return null;
+            }
             if(newChild.key < parent.middleChild.key  ||
                     (parent.middleChild.key == newChild.key && parent.middleChild.secondKey < newChild.secondKey)) {
                 SetChildren(parent,parent.leftChild,newChild,parent.middleChild);
@@ -363,7 +373,7 @@ public class TwoThreeTree<T> {
         UpdateKey(parent.leftChild);
         if(parent.middleChild != null){UpdateKey(parent.middleChild);}
         if(parent.rightChild != null){UpdateKey(parent.middleChild);}
-        return parent;
+        return node;
     }
 
     /**
@@ -398,7 +408,8 @@ public class TwoThreeTree<T> {
                 } else {
                     this.root = parent.leftChild;
                     this.root.parent = null;
-                    Remove(parent);
+                    parent.leftChild = null;
+                    parent = this.root;
                 }
             }
             UpdateKey(parent);
@@ -502,9 +513,9 @@ public class TwoThreeTree<T> {
                 }
             } else { // right sub tree is not relevant
                 if(root.getLeftChild() == null){return null;}
-                if (wantedKey <= root.getLeftChild().getSecondKey()) {
+                if (wantedKey >= root.getLeftChild().getSecondKey()) {
                     return Search(wantedKey, root.getLeftChild(),false );
-                } else if(wantedKey <= root.getMiddleChild().getSecondKey()){
+                } else if(wantedKey >= root.getMiddleChild().getSecondKey()){
                     return Search(wantedKey,root.getMiddleChild(),false);
                 }
                 else{

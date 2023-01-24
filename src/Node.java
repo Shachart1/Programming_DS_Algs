@@ -108,14 +108,17 @@ public class Node<T> {
         for(int i = 0; i<11; i++){
             if(this.playersArray[i] == null){
                 playersArray[i] = playerNode;
+                break;
             }
         }
     }
 
     public void removePlayer(int playerID){ // it will always be O(11)
         for(int i = 0; i < 11; i++){
-            if(this.playersArray[i].getSecondKey() == playerID){
-                playersArray[i] = null;
+            if(this.playersArray[i] != null) {
+                if (this.playersArray[i].getSecondKey() == playerID) {
+                    playersArray[i] = null;
+                }
             }
         }
     }
