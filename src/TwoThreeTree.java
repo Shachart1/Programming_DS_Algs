@@ -399,24 +399,44 @@ public class TwoThreeTree<T> {
 
 
     //TODO - add search by key(ID) // three children
-     public Node<T> Search(int wantedKey, Node<T> root) {
+     public Node<T> Search(int wantedKey, Node<T> root, Boolean isKey) {
         if (root == null) {
             return null;
         }
-        if (root.getKey() == wantedKey) {
-            if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
-                return root; // if its a leaf with the same value it is the right one
+        if(isKey){
+            if (root.getKey() == wantedKey) {
+                if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
+                    return root; // if its a leaf with the same value it is the right one
+                }
+
+                else { // root has the max (so max == wanted.key) than we search in the middle
+                    return Search(wantedKey, root.getMiddleChild(),true);
+                }
+            } else { // right sub tree is not relevant
+                if (wantedKey < root.getMiddleChild().getKey()) {
+                    return Search(wantedKey, root.getLeftChild(),true );
+                } else {
+                    return Search(wantedKey,root.getMiddleChild(),true);
+                }
+            }
+        }
+        else{
+            if (root.getSecondKey() == wantedKey) {
+                if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
+                    return root; // if its a leaf with the same value it is the right one
+                }
+
+                else { // root has the max (so max == wanted.key) than we search in the middle
+                    return Search(wantedKey, root.getMiddleChild(),false);
+                }
+            } else { // right sub tree is not relevant
+                if (wantedKey < root.getMiddleChild().getKey()) {
+                    return Search(wantedKey, root.getLeftChild(),false);
+                } else {
+                    return Search(wantedKey,root.getMiddleChild(),false);
+                }
             }
 
-            else { // root has the max (so max == wanted.key) than we search in the middle
-                return Search(wantedKey, root.getMiddleChild());
-            }
-        } else { // right sub tree is not relevant
-            if (wantedKey < root.getMiddleChild().getKey()) {
-                return Search(wantedKey, root.getLeftChild());
-            } else {
-                return Search(wantedKey,root.getMiddleChild());
-            }
         }
     } // Ilan
 
