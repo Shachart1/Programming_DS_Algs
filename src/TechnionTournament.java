@@ -37,14 +37,14 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
-        Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
         this.facultyTree.Delete(removed);
     }
 
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
-        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
         Node<Player> playerNode = new Node<Player>(player, 0, player.getId()); // the goals num is 0
         faculty.addPlayer(playerNode);
         if(this.playersTree.isEmpty()){
@@ -55,13 +55,13 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void removePlayerFromFaculty(int faculty_id, int player_id) {
-        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
         faculty.removePlayer(player_id);
     }
 
     private void playerGoal(int playerID, Node<Faculty> faculty){
         Node<Player> temp;
-        temp = playersTree.Search(playerID, playersTree.getRoot());
+        temp = playersTree.Search(playerID, playersTree.getRoot(),true);
         playersTree.Delete(temp);
         temp.setKey(temp.getKey()+1);
         playersTree.Insert(temp);
@@ -79,8 +79,8 @@ public class TechnionTournament implements Tournament{
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
 
         // initialize
-        Node<Faculty> home = facultyTree.Search(faculty_id1,this.facultyTree.getRoot());
-        Node<Faculty> away = facultyTree.Search(faculty_id2,this.facultyTree.getRoot());
+        Node<Faculty> home = facultyTree.Search(faculty_id1,this.facultyTree.getRoot(),true);
+        Node<Faculty> away = facultyTree.Search(faculty_id2,this.facultyTree.getRoot(),true);
         Node<Faculty> winnerFaculty =  null;
         if(winner == 2) winnerFaculty = away;
         if(winner == 1) winnerFaculty = home;
@@ -121,7 +121,7 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void getTopScorerInFaculty(int faculty_id, Player player) {
-        Node<Faculty> found = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot());
+        Node<Faculty> found = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(), true);
         Node<Player>[] playersArray = found.getPlayersArray();
         Node<Player> maybeWinner = null;
         int maxgoals = -1;

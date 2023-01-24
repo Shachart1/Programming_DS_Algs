@@ -99,7 +99,6 @@ public class Node<T> {
 
     public void setPrevLinked(Node<T> node){this.prevLinked=node;}
 
-    public Node<Player> [] getPlayersArray(){return this.playersArray;}
 
 
     public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
