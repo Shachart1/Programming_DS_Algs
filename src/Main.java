@@ -20,7 +20,7 @@ public class Main {
         TwoThreeTree testTree = new TwoThreeTree();
         testTree.Insert(testNode_a,true); //faculty "a" has id 4
         testTree.Insert(testNode_b,true); //faculty "b" has id 2
-        testTree.Insert(testNode_c,true); //faculty "c" has id 5
+        testTree.Insert(testNode_c,true); //faculty "c" has id 5,5
         testTree.Insert(testNode_d,true); //faculty "d" has id 1
         testTree.Insert(testNode_e,true); //faculty "e" has id 6
         testTree.Insert(testNode_f,true); //faculty "f" has id 3
@@ -64,25 +64,25 @@ public class Main {
 
 
         Node<Faculty> testNode_aH = new Node<Faculty>(null, null, null,
-                null, new Faculty(4, "aH"), 10, 4);
+                null, new Faculty(4, "aH"), 10, 10);
         Node<Faculty> testNode_bH = new Node<Faculty>(null, null, null,
-                null, new Faculty(2, "bH"), 12, 2);
+                null, new Faculty(2, "bH"), 12, 8);
         Node<Faculty> testNode_cH = new Node<Faculty>(null, null, null,
-                null, new Faculty(5, "cH"), 8, 5);
+                null, new Faculty(5, "cH"), 8, 11);
         Node<Faculty> testNode_dH = new Node<Faculty>(null, null, null,
-                null, new Faculty(1, "dH"), 10, 1);
+                null, new Faculty(1, "dH"), 10, 7);
         Node<Faculty> testNode_eH = new Node<Faculty>(null, null, null,
-                null, new Faculty(6, "eH"), 8, 6);
+                null, new Faculty(6, "eH"), 8, 12);
         Node<Faculty> testNode_fH = new Node<Faculty>(null, null, null,
-                null, new Faculty(3, "fH"), 5, 3);
+                null, new Faculty(3, "fH"), 5, 9);
 
 
-        testTree.Insert(testNode_aH,true);
-        testTree.Insert(testNode_bH,true);
-        testTree.Insert(testNode_cH,true);
-        testTree.Insert(testNode_dH,true);
-        testTree.Insert(testNode_eH,true);
-        testTree.Insert(testNode_fH,true);
+        testTree.Insert(testNode_aH,true); //10,10
+        testTree.Insert(testNode_bH,true); //12
+        testTree.Insert(testNode_cH,true); //8,11
+        testTree.Insert(testNode_dH,true); //10,7
+        testTree.Insert(testNode_eH,true); //8,12
+        testTree.Insert(testNode_fH,true); //5,9
 
         System.out.println("CHECK");
 

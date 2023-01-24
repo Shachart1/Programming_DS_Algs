@@ -28,10 +28,11 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addFacultyToTournament(Faculty faculty) {
-        Node<Faculty> facultyN= new Node<>(faculty ,0,faculty.getId());
+        Node<Faculty> facultyNPoints= new Node<>(faculty ,0,faculty.getId());
+        Node<Faculty> facultyN= new Node<>(faculty ,faculty.getId(),0);
         if(this.facultyTree.isEmpty()){ this.facultyLL = facultyN;}
         this.facultyTree.Insert(facultyN,true);
-        this.facultyPoints.Insert(facultyN,false);
+        this.facultyPoints.Insert(facultyNPoints,false);
         // update LL pointer if needed
         if(facultyLL.getPrevLinked() != null){
             facultyLL = facultyLL.getPrevLinked();
@@ -52,6 +53,7 @@ public class TechnionTournament implements Tournament{
 
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
+        if(this.facultyTree.Search(faculty_id,this.facultyTree.getRoot(),true) == null){return;}
         Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
         Node<Player> playerNode = new Node<Player>(player, 0, player.getId()); // the goals num is 0
         faculty.addPlayer(playerNode);
