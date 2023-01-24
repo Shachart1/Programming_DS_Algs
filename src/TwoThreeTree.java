@@ -72,18 +72,34 @@ public class TwoThreeTree<T> {
      * @param newLink
      */
     private void updateLL(Node<T> existingLink, Node<T> newLink){
-        if(existingLink.getPrevLinked()!=null && existingLink.getPrevLinked().key != Integer.MIN_VALUE){
-            newLink.setPrevLinked(existingLink.getPrevLinked());
-        }
-        if(existingLink.getLinked()!=null){
-            newLink.setLinked(existingLink);
-        }
+        // existingLink is the only node in the LL - insert newLink before him
         if(existingLink.getLinked()==null && existingLink.getPrevLinked()==null){
             newLink.setLinked(existingLink);
             existingLink.setPrevLinked(newLink);
+            return;
         }
+        // existingLink has a node before him in the LL -
+        // make sure that link is saved by pointing newLink to said node
+        if(existingLink.getPrevLinked()!=null && existingLink.getPrevLinked().key != Integer.MIN_VALUE){
+            newLink.setPrevLinked(existingLink.getPrevLinked());
+        }
+
+        // existingLink has a link after him in the LL -
+        // make sure that link is saved by pointing newLink to said node
+        if(existingLink.getLinked()!=null){
+            newLink.setLinked(existingLink);
+        }
+
+        // by this point newLink has is set completely. set other nodes links
+
+        // if newLink has a node before him then  we need that node to point back at him
         if(newLink.getPrevLinked()!=null){newLink.getPrevLinked().setLinked(newLink);}
+        // if newLink has a node after him, make sure he points back to newLink
         if(newLink.getLinked()!=null){existingLink.setPrevLinked(newLink);}
+
+        // finally set existingLink's links
+        newLink.setLinked(existingLink);
+        existingLink.setPrevLinked(newLink);
     }
 
     /**
@@ -261,15 +277,20 @@ public class TwoThreeTree<T> {
      * @param node
      */
     private void RemoveLL(Node<T> node){
+        //node is the only one in the LL - done
         if(node.getLinked()== null && node.getPrevLinked() == null){
             return;
         }
+        //node has a node before him in the LL but no one after him - terminate back link and done
         if(node.getLinked()== null) {
             node.getPrevLinked().setLinked(null);
+            node.setPrevLinked(null);
             return;
         }
+        //node has a node after him in the LL but no one before him - terminate front link and done
         if(node.getPrevLinked() == null){
             node.getLinked().setPrevLinked(null);
+            node.setLinked(null);
             return;
         }
         /*
@@ -280,9 +301,15 @@ public class TwoThreeTree<T> {
             node.linkedNode.getLinked().setPrevLinked(node.linkedNode.getPrevLinked());
         }
          */
+
+        // node is in the middle of the LL - adjust links accordingly
+
+        // node's successor should point back to node's predecessor
         node.getLinked().setPrevLinked(node.getPrevLinked());
+        // node's predecessor should point back to node's successor
         node.getPrevLinked().setLinked(node.getLinked());
 
+        // nullify node's links.
         node.setLinked(null);
         node.setPrevLinked(null);
     }
