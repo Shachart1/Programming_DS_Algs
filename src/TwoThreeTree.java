@@ -414,6 +414,7 @@ public class TwoThreeTree<T> {
         if (root == null) {
             return null;
         }
+        if(root.getLeftChild() == null){return null;}
         if(isKey){
             if (root.getKey() == wantedKey) {
                 if (root.getRightChild() == null && root.middleChild == null && root.leftChild == null) { // it is a leaf or the root has no children
@@ -426,9 +427,9 @@ public class TwoThreeTree<T> {
                     return Search(wantedKey, root.getMiddleChild(),true);
                 }
             } else { // right sub tree is not relevant
-                if (wantedKey < root.getLeftChild().getKey()) {
+                if (wantedKey <= root.getLeftChild().getKey()) {
                     return Search(wantedKey, root.getLeftChild(),true );
-                } else if(wantedKey < root.getMiddleChild().getKey()){
+                } else if(wantedKey <= root.getMiddleChild().getKey()){
                     return Search(wantedKey,root.getMiddleChild(),true);
                 }
                 else{
@@ -448,9 +449,9 @@ public class TwoThreeTree<T> {
                     return Search(wantedKey, root.getMiddleChild(),false);
                 }
             } else { // right sub tree is not relevant
-                if (wantedKey < root.getLeftChild().getSecondKey()) {
+                if (wantedKey <= root.getLeftChild().getSecondKey()) {
                     return Search(wantedKey, root.getLeftChild(),false );
-                } else if(wantedKey < root.getMiddleChild().getSecondKey()){
+                } else if(wantedKey <= root.getMiddleChild().getSecondKey()){
                     return Search(wantedKey,root.getMiddleChild(),false);
                 }
                 else{

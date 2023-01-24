@@ -102,7 +102,10 @@ public class Node<T> {
 
 
     public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
-        for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
+        if(this.playersArray == null){
+            this.playersArray = new Node[11];
+        }
+        for(int i = 0; i<11; i++){
             if(this.playersArray[i] == null){
                 playersArray[i] = playerNode;
             }
