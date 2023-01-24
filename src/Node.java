@@ -95,6 +95,8 @@ public class Node<T> {
 
     public void setPrevLinked(Node<T> node){this.prevLinked=node;}
 
+    public Node<Player> [] getPlayersArray(){return this.playersArray;}
+
 
     public void addPlayer(Node<Player> playerNode){   // it will always be O(11)
         for(int i = 0; i<11; i++){   // we need to check for complexity because we might need to move all the players each time.
