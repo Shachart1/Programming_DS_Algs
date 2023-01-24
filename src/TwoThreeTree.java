@@ -243,6 +243,17 @@ public class TwoThreeTree<T> {
      * @param node
      */
     private void RemoveLL(Node<T> node){
+        if(node.getLinked()== null && node.getPrevLinked() == null){
+            return;
+        }
+        if(node.getLinked()== null) {
+            node.getPrevLinked().setLinked(null);
+            return;
+        }
+        if(node.getPrevLinked() == null){
+            node.getLinked().setPrevLinked(null);
+            return;
+        }
         if(node.linkedNode.getPrevLinked()!=null){
             node.linkedNode.getPrevLinked().setLinked(node.linkedNode.getPrevLinked());
         }
@@ -433,7 +444,7 @@ public class TwoThreeTree<T> {
                 if(root.getRightChild() != null) {
                     return Search(wantedKey,root.getRightChild(),false);
                 }
-                else { // root has the max (so max == wanted.key) than we search in the middle
+                else { // root has the max (so max == wanted.key) than we search in the rightest
                     return Search(wantedKey, root.getMiddleChild(),false);
                 }
             } else { // right sub tree is not relevant
