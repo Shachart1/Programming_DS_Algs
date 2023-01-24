@@ -3,7 +3,6 @@ import java.lang.AssertionError;
 
 public class Main {
     public static void main(String[] args) {
-
         Node<Faculty> testNode_a = new Node<Faculty>(null, null, null,
                 null, new Faculty(4, "a"), 4, 4);
         Node<Faculty> testNode_b = new Node<Faculty>(null, null, null,
