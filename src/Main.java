@@ -28,17 +28,22 @@ public class Main {
         testTree.printTree();
         System.out.println();
 
-        /*
+
         // search for nodes in edges and in middle
-        testTree.Search(testTree.getRoot(),testNode_d.key);
-        testTree.Search(testTree.getRoot(),testNode_f.key);
+        Node<Faculty> test;
+        test = testTree.Search(testNode_d.key,testTree.getRoot(),true);
+        if(test == testNode_d){System.out.println("success");}
+        test = testTree.Search(testNode_f.key,testTree.getRoot(),false);
+        if(test == testNode_f){System.out.println("success");}
         // search for 6 while it exists
-        testTree.Search(testTree.getRoot(),testNode_e.key);
+        test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
+        if(test == testNode_e){System.out.println("success");}
         testTree.Delete(testNode_e); // removing 6
         testTree.printTree();
         System.out.println();
         // search for 6 while it doesn't exist
-        testTree.Search(testTree.getRoot(),testNode_e.key);
+        test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
+        if(test == null){System.out.println("success");}
 
         testTree.Delete(testNode_d); // removing 1
         testTree.printTree();
@@ -48,8 +53,15 @@ public class Main {
         testTree.printTree();
         System.out.println();
 
+        System.out.println("CHECK");
 
-         */
+        Node<Faculty> temp = testNode_c;
+        while(temp!=null){
+            System.out.print(temp.value.getName() + " ");
+            temp = temp.getPrevLinked();
+        }
+        System.out.println("");
+        System.out.println("CHECK");
 
 
         Node<Faculty> testNode_aH = new Node<Faculty>(null, null, null,
@@ -75,7 +87,7 @@ public class Main {
 
         System.out.println("CHECK");
 
-        Node<Faculty> temp = testNode_bH;
+        temp = testNode_bH;
         while(temp!=null){
             System.out.print(temp.value.getName() + " ");
             temp = temp.getPrevLinked();
