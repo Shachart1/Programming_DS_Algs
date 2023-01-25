@@ -19,6 +19,9 @@ public class TechnionTournament implements Tournament{
     TechnionTournament(){};
 
 
+    /**
+     * Create three trees with three nodes in each - O(1)
+     */
     @Override
     public void init() {
         this.facultyTree = new TwoThreeTree<Faculty>(true);
@@ -26,13 +29,22 @@ public class TechnionTournament implements Tournament{
         this.playersTree = new TwoThreeTree<Player>(false);
     }
 
+    /**
+     * create two different nodes for facultyTree(by ID) and facultyPoints(by points) - O(1)
+     * check if Points tree is empty - O(1)
+     * Insert to trees - O(log(n))
+     * update LL if needed - O(1)
+     * create players array - O(1)
+     *
+     * @param faculty
+     */
     @Override
     public void addFacultyToTournament(Faculty faculty) {
         Node<Faculty> facultyNPoints= new Node<>(new Faculty(faculty.getId(),faculty.getName()) ,
                 0,faculty.getId());
         Node<Faculty> facultyN= new Node<>(new Faculty(faculty.getId(),faculty.getName()) ,
                 faculty.getId(),0);
-        if(this.facultyPoints.isEmpty()){ this.facultyLL = facultyNPoints;}
+        if(this.facultyPoints.isEmpty()){ this.facultyLL = facultyNPoints;} // if empty start the LL
         this.facultyTree.Insert(facultyN,false);
         this.facultyPoints.Insert(facultyNPoints,true);
         // update LL pointer if needed
@@ -42,6 +54,12 @@ public class TechnionTournament implements Tournament{
         facultyN.playersArray = new Node[11];
     }
 
+    /**
+     * find faculty by searching the trees - O(log(n))
+     * update LL - O(1)
+     * Delete faculty - O(log(n))
+     * @param faculty_id
+     */
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
         Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
@@ -56,6 +74,15 @@ public class TechnionTournament implements Tournament{
     }
 
 
+    /**
+     * Search the tree for the faculty - O(log(n))
+     * add player to player's array - O(1)
+     * check emptiness of players tree - O(1)
+     * Insert player - O(log(m))
+     *
+     * @param faculty_id
+     * @param player
+     */
     @Override
     public void addPlayerToFaculty(int faculty_id,Player player) {
         if(this.facultyTree.Search(faculty_id,this.facultyTree.getRoot(),true) == null){return;}
@@ -73,12 +100,26 @@ public class TechnionTournament implements Tournament{
         }
     }
 
+    /**
+     * Search for faculty - O(log(n))
+     * remove player from his faculty's array - O(1)
+     * @param faculty_id
+     * @param player_id
+     */
     @Override
     public void removePlayerFromFaculty(int faculty_id, int player_id) {
         Node<Faculty> faculty = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
         faculty.removePlayer(player_id);
     }
 
+    /**
+     * look for player in array - O(1)
+     * Delete player from tree - O(log(m))
+     * Insert back after updating goal - O(log(m))
+     * update LL if needed - O(1)
+     * @param playerID
+     * @param array
+     */
     private void playerGoal(int playerID, Node[] array){
         Node<Player> temp = null;
         for(int i = 0; i < 11; i++){
@@ -105,6 +146,18 @@ public class TechnionTournament implements Tournament{
     }
 
 
+    /**
+     * searching for the faculties - O(log(n))
+     * calling playerGoal k times - O(k*log(m))
+     * Deleting faculties - O(log(n))
+     * updating the faculties points and Inserting back - O(log(n))
+     * updates to LL - O(1)
+     * @param faculty_id1
+     * @param faculty_id2
+     * @param winner
+     * @param faculty1_goals
+     * @param faculty2_goals
+     */
     @Override
     public void playGame(int faculty_id1, int faculty_id2, int winner,
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
@@ -169,14 +222,26 @@ public class TechnionTournament implements Tournament{
             }
         }
 
-    } //TODO - together Monday Mivney
+    }
 
+    /**
+     * LL points at top scorer - getting him and updating is O(1)
+     * @param player
+     */
     @Override
     public void getTopScorer(Player player) {
         player.setId(this.playerLL.getSecondKey());
         player.setName(this.playerLL.getValue().getName());
     }
 
+    /**
+     * search for faculty - O(log(n))
+     * get players array - O(1)
+     * go through the array(which is constant sized - 11) and find top scorer - O(1)
+     *
+     * @param faculty_id
+     * @param player
+     */
     @Override
     public void getTopScorerInFaculty(int faculty_id, Player player) {
         Node<Faculty> found = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(), true);
@@ -199,6 +264,8 @@ public class TechnionTournament implements Tournament{
 
     /**
      * insert into 'faculties' the top k faculties in a given order.
+     * insert to array first and then to 'faculties' to resolve order issues.
+     * going over k faculties from LL is - O(k)
      * @param faculties
      * @param k
      * @param ascending
@@ -225,6 +292,14 @@ public class TechnionTournament implements Tournament{
         }
     }
 
+    /**
+     * insert into 'players' the top k players in a given order.
+     * insert to array first and then to 'players' to resolve order issues.
+     * going over k players from LL is - O(k)
+     * @param players
+     * @param k
+     * @param ascending
+     */
     @Override
     public void getTopKScorers(ArrayList<Player> players, int k, boolean ascending) {
         Node<Player> temp = this.playerLL;
@@ -246,13 +321,14 @@ public class TechnionTournament implements Tournament{
             players.add(array[j]);
         }
     }
-    //TODO - Think how to combine the two
 
+    /**
+     * faculties LL points at the winner so getting them is O(1)
+     * @param faculty
+     */
     @Override
     public void getTheWinner(Faculty faculty) {
         faculty.setId(this.facultyLL.getSecondKey());
         faculty.setName(this.facultyLL.getValue().getName());
     }
-
-    ///TODO - add below your own variables and methods
 }

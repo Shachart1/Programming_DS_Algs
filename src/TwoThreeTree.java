@@ -1,8 +1,6 @@
 public class TwoThreeTree<T> {
     private Node<T> root; //Savir
 
-    //TODO - alter functions to address the LL
-
     /**
      * using the inf and -inf "towers" to save checks
      * we assume there are no two identical keys since the TwoThreeTree will be used with IDs which are unique
@@ -237,7 +235,6 @@ public class TwoThreeTree<T> {
         }
 
 
-     // TODO - ADD LL UPDATING
     /**
      * finds the place in the tree where node should be inserted
      * calls Insert_And_Split() to insert the node there
@@ -472,7 +469,6 @@ public class TwoThreeTree<T> {
 
 
 
-    //TODO - add search by key(ID) // three children
      public Node<T> Search(int wantedKey, Node<T> root, Boolean isKey) {
         if (root == null) {
             return null;
