@@ -45,7 +45,8 @@ public class TechnionTournament implements Tournament{
     @Override
     public void removeFacultyFromTournament(int faculty_id) {
         Node<Faculty> removed = this.facultyTree.Search(faculty_id, this.facultyTree.getRoot(),true);
-        Node<Faculty> removedP = this.facultyPoints.Search(faculty_id, this.facultyPoints.getRoot(),false);
+        Node<Faculty> removedP = this.facultyPoints.searchBySecond(removed.getSecondKey(),removed.getKey(),
+                this.facultyPoints.getRoot());
         // update LL pointer if needed
         if(facultyLL == removed){
             facultyLL = removed.getPrevLinked();
@@ -111,32 +112,37 @@ public class TechnionTournament implements Tournament{
                          ArrayList<Integer> faculty1_goals, ArrayList<Integer> faculty2_goals) {
 
         // initialize
-        Node<Faculty> home = facultyPoints.Search(faculty_id1,this.facultyPoints.getRoot(),false);
-        Node<Faculty> away = facultyPoints.Search(faculty_id2,this.facultyPoints.getRoot(),false);
+        Node<Faculty> home = this.facultyTree.Search(faculty_id1, this.facultyTree.getRoot(),true);
+        Node<Faculty> away = this.facultyTree.Search(faculty_id2, this.facultyTree.getRoot(),true);
+        Node<Faculty> homeP = facultyPoints.searchBySecond(home.getSecondKey(),home.getKey(),this.facultyPoints.getRoot());
+        Node<Faculty> awayP = facultyPoints.searchBySecond(away.getSecondKey(),away.getKey(),this.facultyPoints.getRoot());
         Node<Faculty> winnerFaculty =  null;
-        if(winner == 2) winnerFaculty = away;
-        if(winner == 1) winnerFaculty = home;
+        Node<Faculty> winnerFacultyP = null;
+        if(winner == 2) {winnerFaculty = away; winnerFacultyP = awayP;}
+        if(winner == 1) {winnerFaculty = home; winnerFacultyP = homeP;}
 
         // update players goals
         int numGoals = faculty1_goals.size();
         for (int i=0; i<numGoals; i++){
-            playerGoal(faculty1_goals.get(i),home);
+            playerGoal(faculty1_goals.get(i),homeP);
         }
 
         numGoals = faculty2_goals.size();
         for (int i=0; i<numGoals; i++){
-            playerGoal(faculty2_goals.get(i),away);
+            playerGoal(faculty2_goals.get(i),awayP);
         }
 
         // update faculty points
         if(winner!=0){
             // update LL pointer if needed
-            if(facultyLL == winnerFaculty){
+            if(facultyLL == winnerFacultyP){
                 facultyLL = facultyLL.getPrevLinked();
             }
-            facultyPoints.Delete(winnerFaculty,true);
-            winnerFaculty.setKey(winnerFaculty.getKey() + 3);
-            facultyPoints.Insert(winnerFaculty,true);
+            facultyPoints.Delete(winnerFacultyP,true);
+            // adding 3 points to winner and updating id tree
+            winnerFacultyP.setKey(winnerFacultyP.getKey() + 3);
+            winnerFaculty.setSecondKey(winnerFacultyP.getKey());
+            facultyPoints.Insert(winnerFacultyP,true);
             // update LL pointer if needed
             if(facultyLL.getLinked() != null){
                 facultyLL = facultyLL.getLinked();
@@ -150,12 +156,15 @@ public class TechnionTournament implements Tournament{
             if(facultyLL == home){
                 facultyLL = facultyLL.getPrevLinked();
             }
-            facultyPoints.Delete(away,true);
-            facultyPoints.Delete(home,true);
-            away.setKey(away.getKey() + 1);
-            home.setKey(home.getKey()+1);
-            facultyPoints.Insert(home,true);
-            facultyPoints.Insert(away,true);
+            facultyPoints.Delete(awayP,true);
+            facultyPoints.Delete(homeP,true);
+            // update num of points both in points tree and id's tree
+            awayP.setKey(awayP.getKey() + 1);
+            away.setSecondKey(awayP.getKey());
+            homeP.setKey(homeP.getKey()+1);
+            home.setSecondKey(homeP.getKey());
+            facultyPoints.Insert(homeP,true);
+            facultyPoints.Insert(awayP,true);
             // update LL pointer if needed
             while(facultyLL.getLinked() != null){
                 facultyLL = facultyLL.getLinked();
@@ -199,42 +208,44 @@ public class TechnionTournament implements Tournament{
     @Override
     public void getTopKFaculties(ArrayList<Faculty> faculties, int k, boolean ascending) {
         Node<Faculty> temp = this.facultyLL;
-        for(int j=0;j<k;j++){
-            faculties.add(j,null);
-        }
+        Faculty[] array = new Faculty[k];
         // if ascending = True - i goes from 0 to k
         int i=0;
-        int stop =k;
+        int stop = k;
         int add = 1;
         // if ascending = False - i goes from k to 0
-        if (!ascending){i = k; stop = 0; add = -1;}
+        if (ascending){i = k-1; stop = -1; add = -1;}
         while (i!=stop) {
             if(temp != null) {
-                faculties.add(i, temp.getValue());
+                array[i] = temp.getValue();
                 temp = temp.getPrevLinked();
             }
             i += add;
+        }
+        for (int j=0;j<k;j++) {
+            faculties.add(array[j]);
         }
     }
 
     @Override
     public void getTopKScorers(ArrayList<Player> players, int k, boolean ascending) {
         Node<Player> temp = this.playerLL;
-        for(int j=0;j<k;j++){
-            players.add(j,null);
-        }
+        Player[] array = new Player[k];
         // if ascending = True - i goes from 0 to k
         int i=0;
         int stop =k;
         int add = 1;
         // if ascending = False - i goes from k to 0
-        if (!ascending){i = k; stop = 0; add = -1;}
+        if (ascending){i = k-1; stop = -1; add = -1;}
         while (i!=stop) {
             if(temp != null) {
-                players.add(i, temp.getValue());
+                array[i] = temp.getValue();
                 temp = temp.getPrevLinked();
             }
             i += add;
+        }
+        for (int j=0;j<k;j++) {
+            players.add(array[j]);
         }
     }
     //TODO - Think how to combine the two

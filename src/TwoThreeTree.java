@@ -477,7 +477,7 @@ public class TwoThreeTree<T> {
         if (root == null) {
             return null;
         }
-        if(isKey){
+        //if(isKey){
             if (root.getKey() == wantedKey) {
                 if (root.leftChild == null) { // it is a leaf or the root has no children
                     return root; // if its a leaf with the same value it is the right one
@@ -499,8 +499,8 @@ public class TwoThreeTree<T> {
                     return Search(wantedKey,root.getRightChild(),true);
                 }
             }
-        }
-        else{
+       // }
+        /*else{
             if (root.getSecondKey() == wantedKey) {
                 if (root.leftChild == null) { // it is a leaf or the root has no children
                     return root; // if its a leaf with the same value it is the right one
@@ -524,7 +524,42 @@ public class TwoThreeTree<T> {
             }
 
         }
+
+         */
     } // Ilan
+
+
+    /**
+     *
+     * @param first - points/goals
+     * @param second - id
+     * @param root
+     * @return
+     */
+    public Node<T> searchBySecond(int first, int second, Node<T> root){
+        if (root == null) {return null;}
+        if(root.getLeftChild() == null) { // Leaf
+            if(root.getSecondKey() == second){return root;}
+            return null; // there is no child that fits
+        }
+
+        // Not a leaf
+        if(root.getLeftChild().getKey() > first ||
+                (root.getLeftChild().getKey() == first && root.getLeftChild().getSecondKey() <= second)){
+            // bigger than the left - go left
+                return searchBySecond(first,second,root.getLeftChild());
+        }
+        else if(root.getRightChild() == null){ // no right child - go mid
+            return searchBySecond(first, second, root.getMiddleChild());
+        }
+        else if(root.getMiddleChild().getKey() > first ||
+                (root.getMiddleChild().getKey() == first && root.getMiddleChild().getSecondKey() <= second)){
+            // bigger than middle and smaller than left - go mid
+            return searchBySecond(first, second, root.getMiddleChild());
+        }
+        // bigger than left and mid - go right
+            return searchBySecond(first, second, root.getRightChild());
+    }
 
 
 

@@ -3,100 +3,6 @@ import java.lang.AssertionError;
 
 public class Main {
     public static void main(String[] args) {
-        Node<Faculty> testNode_a = new Node<Faculty>(null, null, null,
-                null, new Faculty(4, "a"), 4, 4);
-        Node<Faculty> testNode_b = new Node<Faculty>(null, null, null,
-                null, new Faculty(2, "b"), 2, 2);
-        Node<Faculty> testNode_c = new Node<Faculty>(null, null, null,
-                null, new Faculty(5, "c"), 5, 5);
-        Node<Faculty> testNode_d = new Node<Faculty>(null, null, null,
-                null, new Faculty(1, "d"), 1, 1);
-        Node<Faculty> testNode_e = new Node<Faculty>(null, null, null,
-                null, new Faculty(6, "e"), 6, 6);
-        Node<Faculty> testNode_f = new Node<Faculty>(null, null, null,
-                null, new Faculty(3, "f"), 3, 3);
-
-        /** OUR TESTS START HERE **/
-        TwoThreeTree testTree = new TwoThreeTree(true);
-        testTree.Insert(testNode_a,true); //faculty "a" has id 4
-        testTree.Insert(testNode_b,true); //faculty "b" has id 2
-        testTree.Insert(testNode_c,true); //faculty "c" has id 5,5
-        testTree.Insert(testNode_d,true); //faculty "d" has id 1
-        testTree.Insert(testNode_e,true); //faculty "e" has id 6
-        testTree.Insert(testNode_f,true); //faculty "f" has id 3
-        testTree.printTree();
-        System.out.println();
-
-
-        // search for nodes in edges and in middle
-        Node<Faculty> test;
-        test = testTree.Search(testNode_d.key,testTree.getRoot(),true);
-        if(test == testNode_d){System.out.println("success");}
-        test = testTree.Search(testNode_f.key,testTree.getRoot(),false);
-        if(test == testNode_f){System.out.println("success");}
-        // search for 6 while it exists
-        test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
-        if(test == testNode_e){System.out.println("success");}
-        testTree.Delete(testNode_e,true); // removing 6
-        testTree.printTree();
-        System.out.println();
-        // search for 6 while it doesn't exist
-        test = testTree.Search(testNode_e.key,testTree.getRoot(),true);
-        if(test == null){System.out.println("success");}
-
-        testTree.Delete(testNode_d,true); // removing 1
-        testTree.printTree();
-        System.out.println();
-
-        testTree.Delete(testNode_f,true); // removing 3
-        testTree.printTree();
-        System.out.println();
-
-        System.out.println("CHECK");
-
-        Node<Faculty> temp = testNode_c;
-        while(temp!=null){
-            System.out.print(temp.value.getName() + " ");
-            temp = temp.getPrevLinked();
-        }
-        System.out.println("");
-        System.out.println("CHECK");
-
-
-        Node<Faculty> testNode_aH = new Node<Faculty>(null, null, null,
-                null, new Faculty(4, "aH"), 10, 10);
-        Node<Faculty> testNode_bH = new Node<Faculty>(null, null, null,
-                null, new Faculty(2, "bH"), 12, 8);
-        Node<Faculty> testNode_cH = new Node<Faculty>(null, null, null,
-                null, new Faculty(5, "cH"), 8, 11);
-        Node<Faculty> testNode_dH = new Node<Faculty>(null, null, null,
-                null, new Faculty(1, "dH"), 10, 7);
-        Node<Faculty> testNode_eH = new Node<Faculty>(null, null, null,
-                null, new Faculty(6, "eH"), 8, 12);
-        Node<Faculty> testNode_fH = new Node<Faculty>(null, null, null,
-                null, new Faculty(3, "fH"), 5, 9);
-
-
-        testTree.Insert(testNode_aH,true); //10,10
-        testTree.Insert(testNode_bH,true); //12
-        testTree.Insert(testNode_cH,true); //8,11
-        testTree.Insert(testNode_dH,true); //10,7
-        testTree.Insert(testNode_eH,true); //8,12
-        testTree.Insert(testNode_fH,true); //5,9
-
-        System.out.println("CHECK");
-
-        temp = testNode_bH;
-        while(temp!=null){
-            System.out.print(temp.value.getName() + " ");
-            temp = temp.getPrevLinked();
-        }
-        System.out.println("");
-        System.out.println("CHECK");
-
-
-        /** OUR TESTS ENDS HERE **/
-
         /** Initializing the tournament **/
         TechnionTournament tournament = new TechnionTournament();
         tournament.init();
@@ -160,13 +66,11 @@ public class Main {
 
         ArrayList<Player> scorers = new ArrayList<>();
         tournament.getTopKScorers(scorers,2,true);
-/*
+
         expression = scorers.get(1).getId() == 1  && scorers.get(1).getName().equals("Asil");
         Assert(expression);
         expression = scorers.get(0).getId() == 6 && scorers.get(0).getName().equals("Ziyech");
         Assert(expression);
-
- */
 
         tournament.getTopScorerInFaculty(1,player);
         expression = player.getId() == 1;
