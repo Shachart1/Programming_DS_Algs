@@ -79,10 +79,8 @@ public class TechnionTournament implements Tournament{
         faculty.removePlayer(player_id);
     }
 
-    private void playerGoal(int playerID, Node<Faculty> faculty){
+    private void playerGoal(int playerID, Node<Faculty> faculty, Node[] array){
         Node<Player> temp = null;
-        Node[] array = this.facultyTree.Search(faculty.secondKey,
-                this.facultyTree.getRoot(), true).getPlayersArray();
         for(int i = 0; i < 11; i++){
             if(array[i]!=null) {
                 if (array[i].getSecondKey() == playerID) {
@@ -124,12 +122,12 @@ public class TechnionTournament implements Tournament{
         // update players goals
         int numGoals = faculty1_goals.size();
         for (int i=0; i<numGoals; i++){
-            playerGoal(faculty1_goals.get(i),homeP);
+            playerGoal(faculty1_goals.get(i),homeP,home.playersArray);
         }
 
         numGoals = faculty2_goals.size();
         for (int i=0; i<numGoals; i++){
-            playerGoal(faculty2_goals.get(i),awayP);
+            playerGoal(faculty2_goals.get(i),awayP,away.playersArray);
         }
 
         // update faculty points
